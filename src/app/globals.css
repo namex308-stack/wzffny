@@ -1,0 +1,307 @@
+@import "tailwindcss";
+
+:root {
+  --font-sans: "Sora", sans-serif;
+  --font-display: "Newsreader", serif;
+  --surface: #f6f7fb;
+  --surface-strong: #ffffff;
+  --ink-900: #0f172a;
+  --ink-700: #334155;
+  --ink-500: #64748b;
+  --border: #e2e8f0;
+  --brand-50: #eef4ff;
+  --brand-100: #dbe7ff;
+  --brand-200: #b7ccff;
+  --brand-600: #1d4ed8;
+  --brand-700: #1e40af;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--ink-900);
+  background-color: var(--surface);
+  line-height: 1.6;
+  text-rendering: optimizeLegibility;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+:root[dir="rtl"] body {
+  font-family: var(--font-ar);
+}
+
+:root[dir="rtl"] .font-display {
+  font-family: var(--font-ar);
+}
+
+.text-start {
+  text-align: start;
+}
+
+.text-end {
+  text-align: end;
+}
+
+.icon-inline {
+  margin-inline-end: 0.5rem;
+}
+
+.input-icon-pad {
+  padding-inline-end: 3rem;
+}
+
+.input-icon-button {
+  inset-inline-end: 0.75rem;
+}
+
+.pe-8 {
+  padding-inline-end: 2rem;
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a1a1a1;
+}
+
+/* Interviewly animation helpers */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.8;
+  }
+  70% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes scan {
+  0% {
+    transform: translateY(-120%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(120%);
+    opacity: 0;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(120%);
+  }
+}
+
+@keyframes audio {
+  0%,
+  100% {
+    transform: scaleY(0.4);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scaleY(1.05);
+    opacity: 1;
+  }
+}
+
+@keyframes rise {
+  0% {
+    transform: scaleY(0.6);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+  100% {
+    transform: scaleY(0.8);
+  }
+}
+
+@keyframes progress {
+  0% {
+    transform: scaleX(0.35);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes orbit {
+  0% {
+    left: 0;
+  }
+  50% {
+    left: calc(100% - 0.75rem);
+  }
+  100% {
+    left: 0;
+  }
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(18px, -12px, 0) rotate(6deg);
+  }
+}
+
+@keyframes glow {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(0.95);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes sweep {
+  0% {
+    transform: translateX(-35%);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateX(35%);
+    opacity: 0;
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes float-x {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(22px);
+  }
+}
+
+.anim-float {
+  animation: float 7s ease-in-out infinite;
+}
+
+.anim-float-slow {
+  animation: float 10s ease-in-out infinite;
+}
+
+.anim-pulse-ring {
+  animation: pulse-ring 2.4s ease-out infinite;
+}
+
+.anim-scan {
+  animation: scan 3.2s ease-in-out infinite;
+}
+
+.anim-shimmer {
+  animation: shimmer 3.4s linear infinite;
+}
+
+.anim-audio {
+  animation: audio 1.8s ease-in-out infinite;
+}
+
+.anim-rise {
+  animation: rise 2.8s ease-in-out infinite;
+}
+
+.anim-progress {
+  animation: progress 2.6s ease-in-out infinite alternate;
+}
+
+.anim-orbit {
+  animation: orbit 4.4s ease-in-out infinite;
+}
+
+.anim-drift {
+  animation: drift 12s ease-in-out infinite;
+}
+
+.anim-glow {
+  animation: glow 6s ease-in-out infinite;
+}
+
+.anim-sweep {
+  animation: sweep 7.5s ease-in-out infinite;
+}
+
+.anim-spin-slow {
+  animation: spin-slow 22s linear infinite;
+}
+
+.anim-float-x {
+  animation: float-x 9s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-float,
+  .anim-float-slow,
+  .anim-pulse-ring,
+  .anim-scan,
+  .anim-shimmer,
+  .anim-audio,
+  .anim-rise,
+  .anim-progress,
+  .anim-orbit,
+  .anim-drift,
+  .anim-glow,
+  .anim-sweep,
+  .anim-spin-slow,
+  .anim-float-x {
+    animation: none !important;
+  }
+}

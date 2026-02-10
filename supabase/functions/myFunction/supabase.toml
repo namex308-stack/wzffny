@@ -1,0 +1,2 @@
+[functions.myFunction]
+verify_jwt = true
