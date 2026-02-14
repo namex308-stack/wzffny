@@ -9,6 +9,9 @@ The landing page content now reflects Interviewly, an AI-powered interview train
 Arabic localization and professional typography have been integrated across marketing, auth, billing, and protected app pages.
 
 ## Recently Completed
+- [x] Wired the hero "Watch Sample Feedback" CTA to the AI feedback marketing page.
+- [x] Added a client-only wrapper for the hero animation to prevent hydration mismatches.
+- [x] Renamed `env.local` to `.env.local` so Next.js loads Supabase environment variables.
 - [x] Added Laravel backend subscription management updates (billing columns migration, Supabase/Paddle service config, webhook listener, and Supabase JWT route alias).
 - [x] Added Laravel backend API for Supabase JWT auth and Paddle billing (middleware, billing controller, API routes).
 

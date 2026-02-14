@@ -1,0 +1,55 @@
+{
+  "name": "asciisd/kashier",
+  "description": "A Laravel package for Kashier payment gateway integration",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "role": "Developer",
+      "name": "Amr Emad",
+      "email": "aemaddin@gmail.com",
+      "homepage": "https://www.asciisd.com/"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Asciisd\\Kashier\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Asciisd\\Kashier\\Tests\\": "tests/"
+    }
+  },
+  "require": {
+    "php": "^8.2",
+    "illuminate/support": "*",
+    "ext-curl": "*"
+  },
+  "require-dev": {
+    "pestphp/pest": "^2.36",
+    "pestphp/pest-plugin-laravel": "^2.0",
+    "orchestra/testbench": "^8.31",
+    "laravel/pint": "^1.20",
+    "phpstan/phpstan": "^2.1"
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Asciisd\\Kashier\\Providers\\KashierServiceProvider"
+      ],
+      "aliases": {
+        "Kashier": "Asciisd\\Kashier\\Facades\\Kashier"
+      }
+    }
+  },
+  "config": {
+    "allow-plugins": {
+      "pestphp/pest-plugin": true,
+      "sort-packages": true,
+      "optimize-autoloader": true
+    }
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true
+}

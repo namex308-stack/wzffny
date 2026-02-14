@@ -1,8 +1,8 @@
+import Link from "next/link";
 import { Play } from "lucide-react";
 import { Container } from "@/components/ui/Container";
-import { Button } from "@/components/ui/Button";
 import { TrustBadges } from "@/components/ui/TrustBadges";
-import { InterviewlyAnimation } from "@/components/ui/InterviewlyAnimation";
+import { InterviewlyAnimationClient } from "@/components/ui/InterviewlyAnimationClient";
 import { getSiteContent } from "@/lib/siteContent";
 import { getServerLocale } from "@/lib/locale.server";
 
@@ -49,10 +49,13 @@ export async function Hero() {
 
           {/* CTA Button */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button size="lg" className="w-full sm:w-auto">
+            <Link
+              href="/ai-feedback"
+              className="inline-flex w-full sm:w-auto items-center justify-center font-semibold rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 cursor-pointer px-8 py-4 text-lg bg-indigo-600 text-white hover:bg-indigo-700 focus:ring-indigo-500"
+            >
               <Play size={20} className="icon-inline" />
               {content.siteConfig.cta.secondary}
-            </Button>
+            </Link>
           </div>
 
           {/* Trust indicators */}
@@ -99,7 +102,7 @@ export async function Hero() {
                 className="absolute -inset-10 rounded-[2.5rem] border border-white/40 bg-white/10 backdrop-blur-[2px]"
                 aria-hidden="true"
               />
-              <InterviewlyAnimation />
+              <InterviewlyAnimationClient />
             </div>
           </div>
         </div>
