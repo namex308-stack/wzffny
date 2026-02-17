@@ -132,6 +132,34 @@ const improvementExamplesAr = [
   },
 ];
 
+const resumeAnalysisChecksEn = [
+  "Scores map to a checklist (ATS formatting, keyword coverage, impact clarity).",
+  "Each suggestion is paired with a before/after example.",
+  "Low-confidence flags highlight areas to review manually.",
+  "Recommendations are guidance, not hiring decisions.",
+];
+
+const resumeAnalysisChecksAr = [
+  "الدرجات مرتبطة بقائمة تحقق (تنسيق ATS، تغطية الكلمات المفتاحية، وضوح الأثر).",
+  "كل توصية مرتبطة بمثال قبل/بعد.",
+  "علامات الثقة المنخفضة تحدد ما يحتاج مراجعة يدوية.",
+  "التوصيات للتطوير وليست قرار توظيف.",
+];
+
+const resumeAnalysisEvidenceEn = [
+  "Section parsing for summary, experience, skills, and education.",
+  "ATS checks for headings, dates, and layout consistency.",
+  "Keyword match review against your target role and industry.",
+  "Impact metric detection (numbers, time, cost, revenue).",
+];
+
+const resumeAnalysisEvidenceAr = [
+  "تحليل الأقسام للملخص والخبرة والمهارات والتعليم.",
+  "فحوصات ATS للعناوين والتواريخ واتساق التنسيق.",
+  "مراجعة تطابق الكلمات المفتاحية مع الدور والمجال.",
+  "رصد مؤشرات الأثر الرقمية (أرقام، وقت، تكلفة، إيراد).",
+];
+
 export default function ResumePage() {
   const { locale } = useLocale();
   const isArabic = locale === "ar";
@@ -141,8 +169,8 @@ export default function ResumePage() {
       ? "ارفع سيرتك الذاتية واجعلها جاهزة للتوظيف خلال دقائق"
       : "Upload your resume. Get recruiter‑ready in minutes.",
     subtitle: isArabic
-      ? "يقيم الذكاء الاصطناعي الهيكل والكلمات المفتاحية والأثر، ثم يولّد نسخة محسّنة وجاهزة لأنظمة ATS."
-      : "AI reviews structure, keywords, and impact, then generates an optimized ATS‑ready version.",
+      ? "يقيم الذكاء الاصطناعي الهيكل والكلمات المفتاحية والأثر عبر معايير واضحة، ثم يولّد نسخة محسّنة وجاهزة لأنظمة ATS."
+      : "AI reviews structure, keywords, and impact using transparent checks, then generates an optimized ATS‑ready version.",
     uploadTitle: isArabic ? "رفع السيرة الذاتية" : "Upload your resume",
     supportedFormats: isArabic
       ? "PDF أو DOCX حتى 10 ميجابايت. عربي أو إنجليزي."
@@ -182,6 +210,12 @@ export default function ResumePage() {
       ? "الدرجات تعكس الجاهزية لـ ATS ووضوح الأثر."
       : "Scores reflect ATS readiness, impact, and clarity.",
     ratingsEmpty: isArabic ? "تظهر التقييمات بعد اكتمال التحليل." : "Ratings appear after analysis is complete.",
+    analysisMethodTitle: isArabic ? "شفافية التحليل" : "Analysis transparency",
+    analysisMethodSubtitle: isArabic
+      ? "كل توصية مدعومة بأدلة قابلة للتحقق."
+      : "Every recommendation is backed by verifiable evidence.",
+    analysisEvidenceTitle: isArabic ? "الأدلة المستخدمة" : "Evidence used",
+    analysisChecksTitle: isArabic ? "قواعد التقييم" : "Scoring checks",
     optimized: isArabic ? "السيرة الذاتية المحسّنة" : "Optimized resume",
     optimizedSubtitle: isArabic
       ? "حمّل نسخة جاهزة لأنظمة ATS مع تحسينات الكلمات المفتاحية والإنجازات."
@@ -210,13 +244,15 @@ export default function ResumePage() {
   const ratingMetrics = isArabic ? ratingMetricsAr : ratingMetricsEn;
   const editSuggestion = isArabic ? editSuggestionAr : editSuggestionEn;
   const improvementExamples = isArabic ? improvementExamplesAr : improvementExamplesEn;
+  const resumeAnalysisChecks = isArabic ? resumeAnalysisChecksAr : resumeAnalysisChecksEn;
+  const resumeAnalysisEvidence = isArabic ? resumeAnalysisEvidenceAr : resumeAnalysisEvidenceEn;
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [saveToAccount, setSaveToAccount] = useState(true);
   const [analysisReady, setAnalysisReady] = useState(false);
   const [analysisError, setAnalysisError] = useState<string | null>(null);
   const [revisedUrl, setRevisedUrl] = useState<string | null>(null);
   const [revisedFileName, setRevisedFileName] = useState(
-    "Interviewly_Resume_Optimized.pdf",
+    "wzzfny_Resume_Optimized.pdf",
   );
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -241,8 +277,8 @@ export default function ResumePage() {
     }
     const extension = selectedFile.name.split(".").pop();
     const filename = extension
-      ? `Interviewly_Resume_Optimized.${extension}`
-      : "Interviewly_Resume_Optimized.pdf";
+      ? `wzzfny_Resume_Optimized.${extension}`
+      : "wzzfny_Resume_Optimized.pdf";
     setRevisedFileName(filename);
     setRevisedUrl(URL.createObjectURL(selectedFile));
     setAnalysisError(null);
@@ -478,6 +514,37 @@ export default function ResumePage() {
                 {copy.ratingsEmpty}
               </div>
             )}
+          </div>
+
+          <div className="rounded-2xl border border-(--border) bg-white p-6 shadow-sm">
+            <h2 className="text-lg font-semibold text-(--ink-900)">
+              {copy.analysisMethodTitle}
+            </h2>
+            <p className="mt-1 text-sm text-(--ink-500)">
+              {copy.analysisMethodSubtitle}
+            </p>
+            <div className="mt-4 space-y-4 text-sm text-(--ink-700)">
+              <div className="rounded-lg border border-(--border) bg-white px-4 py-3">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-(--ink-500)">
+                  {copy.analysisChecksTitle}
+                </p>
+                <ul className="mt-2 space-y-2">
+                  {resumeAnalysisChecks.map((item) => (
+                    <li key={item}>• {item}</li>
+                  ))}
+                </ul>
+              </div>
+              <div className="rounded-lg border border-(--border) bg-(--brand-50)/40 px-4 py-3">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-(--ink-500)">
+                  {copy.analysisEvidenceTitle}
+                </p>
+                <ul className="mt-2 space-y-2">
+                  {resumeAnalysisEvidence.map((item) => (
+                    <li key={item}>• {item}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           </div>
 
           <div className="rounded-2xl border border-(--border) bg-white p-6 shadow-sm">

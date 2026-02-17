@@ -1,6 +1,6 @@
-export const BILLING_CURRENCY = "EGP" as const;
+export const BILLING_CURRENCY = "USD" as const;
 
-export type PlanId = "free" | "pro" | "premium";
+export type PlanId = "free" | "paid";
 
 type PlanDefinition = {
   id: PlanId;
@@ -16,24 +16,17 @@ export const PLAN_DEFINITIONS: Record<PlanId, PlanDefinition> = {
     amount: 0,
     period: "month",
   },
-  pro: {
-    id: "pro",
-    name: "Pro",
-    amount: 149,
-    period: "month",
-  },
-  premium: {
-    id: "premium",
-    name: "Premium",
-    amount: 299,
+  paid: {
+    id: "paid",
+    name: "Paid",
+    amount: 10,
     period: "month",
   },
 };
 
 export const PLAN_NAME_TO_ID: Record<string, PlanId> = {
   Free: "free",
-  Pro: "pro",
-  Premium: "premium",
+  Paid: "paid",
 };
 
 export const isPaidPlan = (plan: PlanId) => plan !== "free";
@@ -43,7 +36,7 @@ export const normalizePlanId = (value: string | null | undefined): PlanId | null
     return null;
   }
   const normalized = value.toLowerCase().trim();
-  if (normalized === "free" || normalized === "pro" || normalized === "premium") {
+  if (normalized === "free" || normalized === "paid") {
     return normalized;
   }
   return null;

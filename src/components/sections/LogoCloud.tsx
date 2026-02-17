@@ -7,7 +7,7 @@ export async function LogoCloud() {
   const content = getSiteContent(locale);
 
   return (
-    <section className="py-16 bg-white border-y border-gray-100">
+    <section className="cv-auto py-16 bg-white border-y border-gray-100">
       <Container>
         <p className="text-center text-sm font-medium text-gray-500 mb-8">
           {content.copy.logoCloudTitle}

@@ -10,7 +10,7 @@ export async function Features() {
   const content = getSiteContent(locale);
 
   return (
-    <section id="features" className="py-24 bg-gray-50">
+    <section id="features" className="cv-auto py-24 bg-gray-50">
       <Container>
         <SectionHeader
           eyebrow={content.copy.sections.features.eyebrow}

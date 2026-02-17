@@ -55,7 +55,7 @@ const marketingPagesEn: Record<(typeof marketingSlugs)[number], MarketingPage> =
     eyebrow: "Product",
     title: "Interview Practice",
     subtitle:
-      "Run realistic mock interviews with timed questions, camera recording, and guided prompts.",
+      "Run realistic mock interviews with timed questions, camera recordings, and guided prompts.",
     highlights: [
       {
         title: "Structured sessions",
@@ -107,22 +107,22 @@ const marketingPagesEn: Record<(typeof marketingSlugs)[number], MarketingPage> =
     eyebrow: "Product",
     title: "AI Feedback",
     subtitle:
-      "Objective, actionable insights on clarity, structure, delivery, and confidence after every response.",
+      "Transparent, evidence-backed insights on clarity, structure, delivery, and confidence after every response.",
     highlights: [
       {
-        title: "Answer scoring",
+        title: "Evidence-based scoring",
         description:
-          "Benchmark performance with clear scores across key dimensions.",
+          "Every score maps to a rubric and shows the evidence behind it.",
       },
       {
-        title: "Voice and pacing",
+        title: "Timestamped cues",
         description:
-          "Detect filler words, speed issues, and moments where you can slow down.",
+          "See the exact moments where pacing, clarity, or confidence dips.",
       },
       {
-        title: "Delivery insights",
+        title: "Consistency checks",
         description:
-          "Track eye contact, energy, and body language trends over time.",
+          "Low-confidence areas are flagged so you know what to double-check.",
       },
     ],
     sections: [
@@ -134,6 +134,16 @@ const marketingPagesEn: Record<(typeof marketingSlugs)[number], MarketingPage> =
           "Clarity, structure, and storytelling",
           "Confidence, tone, and pacing",
           "Impact and measurable outcomes",
+        ],
+      },
+      {
+        title: "How accuracy is ensured",
+        body:
+          "We combine transcript scoring with measurable delivery signals to avoid generic tips.",
+        bullets: [
+          "Rubric scoring tied to STAR structure and outcomes",
+          "Speech rate, pause ratio, and filler-word tracking",
+          "Video cues like eye contact ratio when camera is enabled",
         ],
       },
       {
@@ -159,22 +169,22 @@ const marketingPagesEn: Record<(typeof marketingSlugs)[number], MarketingPage> =
     eyebrow: "Product",
     title: "Resume Review",
     subtitle:
-      "Upload your resume and receive targeted improvements for impact, keywords, and structure.",
+      "Upload your resume and receive evidence-backed improvements for impact, keywords, and structure.",
     highlights: [
       {
         title: "Keyword alignment",
         description:
-          "Match your resume to role requirements with smarter keyword coverage.",
+          "Match your resume to role requirements with clear keyword coverage.",
       },
       {
         title: "Impact-first bullets",
         description:
-          "Focus every bullet on outcomes, metrics, and ownership signals.",
+          "Rewrite bullets with outcomes, metrics, and ownership signals.",
       },
       {
         title: "ATS-ready formatting",
         description:
-          "Clean structure that stays readable and consistent across systems.",
+          "Layout checks that stay readable and consistent across systems.",
       },
     ],
     sections: [
@@ -186,6 +196,16 @@ const marketingPagesEn: Record<(typeof marketingSlugs)[number], MarketingPage> =
           "Summary clarity and role alignment",
           "Experience bullets and quantified impact",
           "Skills and keyword coverage",
+        ],
+      },
+      {
+        title: "How accuracy is ensured",
+        body:
+          "Every recommendation is tied to a checklist item you can verify.",
+        bullets: [
+          "Section parsing for summary, experience, skills, and education",
+          "ATS formatting checks for headings, dates, and layout",
+          "Keyword match review against your target role",
         ],
       },
       {
@@ -211,7 +231,7 @@ const marketingPagesEn: Record<(typeof marketingSlugs)[number], MarketingPage> =
     eyebrow: "Company",
     title: "Company",
     subtitle:
-      "Learn about our mission, values, and the team building Interviewly.",
+      "Learn about our mission, values, and the team building wzzfny.",
     highlights: [
       {
         title: "Mission-driven",
@@ -233,7 +253,7 @@ const marketingPagesEn: Record<(typeof marketingSlugs)[number], MarketingPage> =
       {
         title: "Our story",
         body:
-          "Interviewly started with a simple goal: make interview prep realistic, supportive, and data-informed.",
+          "wzzfny started with a simple goal: make interview prep realistic, supportive, and data-informed.",
       },
       {
         title: "Leadership principles",
@@ -248,7 +268,7 @@ const marketingPagesEn: Record<(typeof marketingSlugs)[number], MarketingPage> =
     ],
     links: [
       {
-        title: "About Interviewly",
+        title: "About wzzfny",
         description: "Our story, values, and what we believe.",
         href: "/about",
       },
@@ -267,13 +287,13 @@ const marketingPagesEn: Record<(typeof marketingSlugs)[number], MarketingPage> =
       title: "Want to learn more?",
       subtitle:
         "Explore our story, open roles, and company updates.",
-      primary: { label: "About Interviewly", href: "/about" },
+      primary: { label: "About wzzfny", href: "/about" },
       secondary: { label: "Careers", href: "/careers" },
     },
   },
   about: {
     eyebrow: "Company",
-    title: "About Interviewly",
+    title: "About wzzfny",
     subtitle:
       "We’re building a practical, data-informed way to practice interviews and build confidence.",
     highlights: [
@@ -367,14 +387,14 @@ const marketingPagesEn: Record<(typeof marketingSlugs)[number], MarketingPage> =
       subtitle:
         "Reach out with your background and what you’re excited to build.",
       primary: { label: "Contact recruiting", href: "/contact" },
-      secondary: { label: "About Interviewly", href: "/about" },
+      secondary: { label: "About wzzfny", href: "/about" },
     },
   },
   press: {
     eyebrow: "Company",
     title: "Press",
     subtitle:
-      "News, media resources, and brand assets for Interviewly.",
+      "News, media resources, and brand assets for wzzfny.",
     highlights: [
       {
         title: "Press kit",
@@ -396,7 +416,7 @@ const marketingPagesEn: Record<(typeof marketingSlugs)[number], MarketingPage> =
       {
         title: "Latest announcements",
         body:
-          "Interviewly launches new AI feedback and interview practice updates tailored to role-based preparation.",
+          "wzzfny launches new AI feedback and interview practice updates tailored to role-based preparation.",
       },
       {
         title: "Brand assets",
@@ -473,7 +493,7 @@ const marketingPagesEn: Record<(typeof marketingSlugs)[number], MarketingPage> =
       },
       {
         title: "Contact",
-        description: "Get in touch with the Interviewly team.",
+        description: "Get in touch with the wzzfny team.",
         href: "/contact",
       },
     ],
@@ -521,7 +541,7 @@ const marketingPagesEn: Record<(typeof marketingSlugs)[number], MarketingPage> =
       {
         title: "How to use them",
         body:
-          "Review the guide, practice with Interviewly, and track improvement with AI feedback.",
+          "Review the guide, practice with wzzfny, and track improvement with AI feedback.",
       },
     ],
     cta: {
@@ -568,7 +588,7 @@ const marketingPagesEn: Record<(typeof marketingSlugs)[number], MarketingPage> =
       {
         title: "Record like a pro",
         body:
-          "Use Interviewly recording to see your delivery and refine quickly.",
+          "Use wzzfny recording to see your delivery and refine quickly.",
         bullets: [
           "Practice under real interview timing",
           "Replay and compare sessions",
@@ -681,7 +701,7 @@ const marketingPagesEn: Record<(typeof marketingSlugs)[number], MarketingPage> =
     eyebrow: "Legal",
     title: "Legal",
     subtitle:
-      "Policies and terms that explain how Interviewly works and how we protect your data.",
+      "Policies and terms that explain how wzzfny works and how we protect your data.",
     highlights: [
       {
         title: "Privacy Policy",
@@ -691,7 +711,7 @@ const marketingPagesEn: Record<(typeof marketingSlugs)[number], MarketingPage> =
       {
         title: "Terms of Service",
         description:
-          "The rules for using Interviewly and our services.",
+          "The rules for using wzzfny and our services.",
       },
       {
         title: "Cookie Policy",
@@ -719,7 +739,7 @@ const marketingPagesEn: Record<(typeof marketingSlugs)[number], MarketingPage> =
       },
       {
         title: "Terms of Service",
-        description: "Understand the terms for using Interviewly.",
+        description: "Understand the terms for using wzzfny.",
         href: "/terms-of-service",
       },
       {
@@ -733,7 +753,7 @@ const marketingPagesEn: Record<(typeof marketingSlugs)[number], MarketingPage> =
     eyebrow: "Legal",
     title: "Privacy Policy",
     subtitle:
-      "How we collect, use, and protect your information when you use Interviewly.",
+      "How we collect, use, and protect your information when you use wzzfny.",
     lastUpdated: "February 6, 2026",
     sections: [
       {
@@ -774,7 +794,7 @@ const marketingPagesEn: Record<(typeof marketingSlugs)[number], MarketingPage> =
       {
         title: "Contact",
         body:
-          "Questions about privacy? Email us at privacy@interviewly.ai.",
+          "Questions about privacy? Email us at privacy@wzzfny.ai.",
       },
     ],
   },
@@ -782,13 +802,13 @@ const marketingPagesEn: Record<(typeof marketingSlugs)[number], MarketingPage> =
     eyebrow: "Legal",
     title: "Terms of Service",
     subtitle:
-      "The terms that govern access to and use of Interviewly.",
+      "The terms that govern access to and use of wzzfny.",
     lastUpdated: "February 6, 2026",
     sections: [
       {
         title: "Using the service",
         body:
-          "By using Interviewly, you agree to these terms and to keep your account information accurate.",
+          "By using wzzfny, you agree to these terms and to keep your account information accurate.",
         bullets: [
           "You must be at least 16 years old or the age of majority in your jurisdiction.",
           "You are responsible for the security of your account.",
@@ -813,17 +833,17 @@ const marketingPagesEn: Record<(typeof marketingSlugs)[number], MarketingPage> =
       {
         title: "Content and intellectual property",
         body:
-          "You own your uploaded content. Interviewly retains rights to the platform and related materials.",
+          "You own your uploaded content. wzzfny retains rights to the platform and related materials.",
       },
       {
         title: "Limitation of liability",
         body:
-          "Interviewly is provided \"as is\" without warranties. We are not liable for indirect or consequential damages.",
+          "wzzfny is provided \"as is\" without warranties. We are not liable for indirect or consequential damages.",
       },
       {
         title: "Contact",
         body:
-          "Questions about these terms? Email support@interviewly.ai.",
+          "Questions about these terms? Email support@wzzfny.ai.",
       },
     ],
   },
@@ -831,7 +851,7 @@ const marketingPagesEn: Record<(typeof marketingSlugs)[number], MarketingPage> =
     eyebrow: "Legal",
     title: "Cookie Policy",
     subtitle:
-      "How Interviewly uses cookies and similar technologies to deliver the service.",
+      "How wzzfny uses cookies and similar technologies to deliver the service.",
     lastUpdated: "February 6, 2026",
     sections: [
       {
@@ -857,7 +877,7 @@ const marketingPagesEn: Record<(typeof marketingSlugs)[number], MarketingPage> =
       {
         title: "Contact",
         body:
-          "For cookie-related questions, email privacy@interviewly.ai.",
+          "For cookie-related questions, email privacy@wzzfny.ai.",
       },
     ],
   },
@@ -920,22 +940,22 @@ const marketingPagesAr: Record<(typeof marketingSlugs)[number], MarketingPage> =
     eyebrow: "المنتج",
     title: "ملاحظات الذكاء الاصطناعي",
     subtitle:
-      "رؤى موضوعية وقابلة للتنفيذ حول الوضوح والبنية وطريقة الإلقاء بعد كل إجابة.",
+      "رؤى شفافة ومدعومة بالأدلة حول الوضوح والبنية وطريقة الإلقاء بعد كل إجابة.",
     highlights: [
       {
-        title: "تقييم الإجابات",
+        title: "تقييم مدعوم بالأدلة",
         description:
-          "درجات واضحة لأهم محاور الأداء.",
+          "كل درجة مرتبطة بمعيار وتعرض الأدلة خلفها.",
       },
       {
-        title: "الصوت والإيقاع",
+        title: "توقيتات دقيقة",
         description:
-          "كشف كلمات الحشو والسرعة والأجزاء التي تحتاج تباطؤًا.",
+          "شاهد اللحظات التي ينخفض فيها الإيقاع أو الوضوح أو الثقة.",
       },
       {
-        title: "لغة الجسد",
+        title: "فحوصات الاتساق",
         description:
-          "تتبّع التواصل البصري والطاقة عبر الوقت.",
+          "نعلّم المناطق منخفضة الثقة لتراجعها بسهولة.",
       },
     ],
     sections: [
@@ -947,6 +967,16 @@ const marketingPagesAr: Record<(typeof marketingSlugs)[number], MarketingPage> =
           "الوضوح والبنية والسرد",
           "الثقة والنبرة والإيقاع",
           "الأثر والنتائج القابلة للقياس",
+        ],
+      },
+      {
+        title: "كيف نضمن الدقة",
+        body:
+          "نجمع تقييم النص مع إشارات الإلقاء القابلة للقياس لتفادي النصائح العامة.",
+        bullets: [
+          "تقييم معياري مرتبط ببنية STAR والنتائج",
+          "معدل الكلام ونسبة التوقف وتتبع كلمات الحشو",
+          "مؤشرات الفيديو مثل نسبة التواصل البصري عند تفعيل الكاميرا",
         ],
       },
       {
@@ -972,12 +1002,12 @@ const marketingPagesAr: Record<(typeof marketingSlugs)[number], MarketingPage> =
     eyebrow: "المنتج",
     title: "مراجعة السيرة الذاتية",
     subtitle:
-      "حمّل سيرتك الذاتية واحصل على تحسينات للكلمات المفتاحية والأثر والبنية.",
+      "حمّل سيرتك الذاتية واحصل على تحسينات مدعومة بالأدلة للكلمات المفتاحية والأثر والبنية.",
     highlights: [
       {
         title: "مواءمة الكلمات المفتاحية",
         description:
-          "تحسين التطابق مع متطلبات الدور المستهدف.",
+          "تحسين التطابق مع متطلبات الدور المستهدف بوضوح.",
       },
       {
         title: "نقاط أثر واضحة",
@@ -987,7 +1017,7 @@ const marketingPagesAr: Record<(typeof marketingSlugs)[number], MarketingPage> =
       {
         title: "تنسيق مناسب للأنظمة",
         description:
-          "هيكلة منظمة وسهلة القراءة عبر الأنظمة.",
+          "فحوصات تنسيق تحافظ على الاتساق عبر الأنظمة.",
       },
     ],
     sections: [
@@ -999,6 +1029,16 @@ const marketingPagesAr: Record<(typeof marketingSlugs)[number], MarketingPage> =
           "الملخص ومدى توافقه مع الدور",
           "نقاط الخبرة والأثر الكمي",
           "المهارات والكلمات المفتاحية",
+        ],
+      },
+      {
+        title: "كيف نضمن الدقة",
+        body:
+          "كل توصية مرتبطة بعنصر يمكنك التحقق منه.",
+        bullets: [
+          "تحليل الأقسام للملخص والخبرة والمهارات والتعليم",
+          "فحوصات ATS للعناوين والتواريخ والتنسيق",
+          "مراجعة تطابق الكلمات المفتاحية مع الدور المستهدف",
         ],
       },
       {
@@ -1024,7 +1064,7 @@ const marketingPagesAr: Record<(typeof marketingSlugs)[number], MarketingPage> =
     eyebrow: "الشركة",
     title: "الشركة",
     subtitle:
-      "تعرف على مهمتنا وقيمنا والفريق الذي يبني Interviewly.",
+      "تعرف على مهمتنا وقيمنا والفريق الذي يبني wzzfny.",
     highlights: [
       {
         title: "مهمة واضحة",
@@ -1046,7 +1086,7 @@ const marketingPagesAr: Record<(typeof marketingSlugs)[number], MarketingPage> =
       {
         title: "قصتنا",
         body:
-          "بدأ Interviewly بهدف بسيط: جعل التحضير للمقابلات واقعيًا وداعمًا ومبنيًا على البيانات.",
+          "بدأ wzzfny بهدف بسيط: جعل التحضير للمقابلات واقعيًا وداعمًا ومبنيًا على البيانات.",
       },
       {
         title: "مبادئ القيادة",
@@ -1061,7 +1101,7 @@ const marketingPagesAr: Record<(typeof marketingSlugs)[number], MarketingPage> =
     ],
     links: [
       {
-        title: "عن Interviewly",
+        title: "عن wzzfny",
         description: "القصة والقيم وما نؤمن به.",
         href: "/about",
       },
@@ -1080,13 +1120,13 @@ const marketingPagesAr: Record<(typeof marketingSlugs)[number], MarketingPage> =
       title: "هل تريد معرفة المزيد؟",
       subtitle:
         "استكشف قصتنا والفرص المتاحة وأخبار الشركة.",
-      primary: { label: "عن Interviewly", href: "/about" },
+      primary: { label: "عن wzzfny", href: "/about" },
       secondary: { label: "الوظائف", href: "/careers" },
     },
   },
   about: {
     eyebrow: "الشركة",
-    title: "عن Interviewly",
+    title: "عن wzzfny",
     subtitle:
       "نبني طريقة عملية قائمة على البيانات للتدريب على المقابلات وبناء الثقة.",
     highlights: [
@@ -1180,14 +1220,14 @@ const marketingPagesAr: Record<(typeof marketingSlugs)[number], MarketingPage> =
       subtitle:
         "راسلنا بخبراتك وما الذي تريد بناءه.",
       primary: { label: "تواصل مع التوظيف", href: "/contact" },
-      secondary: { label: "عن Interviewly", href: "/about" },
+      secondary: { label: "عن wzzfny", href: "/about" },
     },
   },
   press: {
     eyebrow: "الشركة",
     title: "الصحافة",
     subtitle:
-      "الأخبار والموارد الإعلامية ومواد العلامة الخاصة بـ Interviewly.",
+      "الأخبار والموارد الإعلامية ومواد العلامة الخاصة بـ wzzfny.",
     highlights: [
       {
         title: "ملف صحفي",
@@ -1286,7 +1326,7 @@ const marketingPagesAr: Record<(typeof marketingSlugs)[number], MarketingPage> =
       },
       {
         title: "تواصل معنا",
-        description: "تواصل مباشرة مع فريق Interviewly.",
+        description: "تواصل مباشرة مع فريق wzzfny.",
         href: "/contact",
       },
     ],
@@ -1334,7 +1374,7 @@ const marketingPagesAr: Record<(typeof marketingSlugs)[number], MarketingPage> =
       {
         title: "كيفية الاستخدام",
         body:
-          "اقرأ الدليل، ثم تدرّب عبر Interviewly وتابع التحسن بالملاحظات.",
+          "اقرأ الدليل، ثم تدرّب عبر wzzfny وتابع التحسن بالملاحظات.",
       },
     ],
     cta: {
@@ -1381,7 +1421,7 @@ const marketingPagesAr: Record<(typeof marketingSlugs)[number], MarketingPage> =
       {
         title: "سجّل مثل المحترفين",
         body:
-          "استخدم تسجيل Interviewly لمراجعة الأداء بسرعة.",
+          "استخدم تسجيل wzzfny لمراجعة الأداء بسرعة.",
         bullets: [
           "تدريب بزمن واقعي",
           "مقارنة الجلسات",
@@ -1494,7 +1534,7 @@ const marketingPagesAr: Record<(typeof marketingSlugs)[number], MarketingPage> =
     eyebrow: "قانوني",
     title: "قانوني",
     subtitle:
-      "السياسات والشروط التي توضّح كيفية عمل Interviewly وحماية البيانات.",
+      "السياسات والشروط التي توضّح كيفية عمل wzzfny وحماية البيانات.",
     highlights: [
       {
         title: "سياسة الخصوصية",
@@ -1504,7 +1544,7 @@ const marketingPagesAr: Record<(typeof marketingSlugs)[number], MarketingPage> =
       {
         title: "شروط الخدمة",
         description:
-          "القواعد التي تنظّم استخدام Interviewly.",
+          "القواعد التي تنظّم استخدام wzzfny.",
       },
       {
         title: "سياسة ملفات تعريف الارتباط",
@@ -1532,7 +1572,7 @@ const marketingPagesAr: Record<(typeof marketingSlugs)[number], MarketingPage> =
       },
       {
         title: "شروط الخدمة",
-        description: "افهم شروط استخدام Interviewly.",
+        description: "افهم شروط استخدام wzzfny.",
         href: "/terms-of-service",
       },
       {
@@ -1546,7 +1586,7 @@ const marketingPagesAr: Record<(typeof marketingSlugs)[number], MarketingPage> =
     eyebrow: "قانوني",
     title: "سياسة الخصوصية",
     subtitle:
-      "كيفية جمع المعلومات واستخدامها وحمايتها عند استخدام Interviewly.",
+      "كيفية جمع المعلومات واستخدامها وحمايتها عند استخدام wzzfny.",
     lastUpdated: "6 فبراير 2026",
     sections: [
       {
@@ -1587,7 +1627,7 @@ const marketingPagesAr: Record<(typeof marketingSlugs)[number], MarketingPage> =
       {
         title: "تواصل",
         body:
-          "للاستفسارات المتعلقة بالخصوصية: privacy@interviewly.ai.",
+          "للاستفسارات المتعلقة بالخصوصية: privacy@wzzfny.ai.",
       },
     ],
   },
@@ -1595,13 +1635,13 @@ const marketingPagesAr: Record<(typeof marketingSlugs)[number], MarketingPage> =
     eyebrow: "قانوني",
     title: "شروط الخدمة",
     subtitle:
-      "الشروط التي تنظّم الوصول إلى Interviewly واستخدامه.",
+      "الشروط التي تنظّم الوصول إلى wzzfny واستخدامه.",
     lastUpdated: "6 فبراير 2026",
     sections: [
       {
         title: "استخدام الخدمة",
         body:
-          "باستخدام Interviewly، توافق على هذه الشروط وتلتزم بصحة بيانات حسابك.",
+          "باستخدام wzzfny، توافق على هذه الشروط وتلتزم بصحة بيانات حسابك.",
         bullets: [
           "يجب أن يكون عمرك 16 عامًا على الأقل أو سن الرشد في بلدك.",
           "أنت مسؤول عن حماية حسابك.",
@@ -1626,17 +1666,17 @@ const marketingPagesAr: Record<(typeof marketingSlugs)[number], MarketingPage> =
       {
         title: "المحتوى وحقوق الملكية",
         body:
-          "تملك محتواك المرفوع. تحتفظ Interviewly بحقوق المنصة والمواد المرتبطة بها.",
+          "تملك محتواك المرفوع. تحتفظ wzzfny بحقوق المنصة والمواد المرتبطة بها.",
       },
       {
         title: "حدود المسؤولية",
         body:
-          "تُقدَّم Interviewly كما هي دون ضمانات. لا نتحمل مسؤولية الأضرار غير المباشرة.",
+          "تُقدَّم wzzfny كما هي دون ضمانات. لا نتحمل مسؤولية الأضرار غير المباشرة.",
       },
       {
         title: "تواصل",
         body:
-          "للأسئلة حول هذه الشروط: support@interviewly.ai.",
+          "للأسئلة حول هذه الشروط: support@wzzfny.ai.",
       },
     ],
   },
@@ -1644,7 +1684,7 @@ const marketingPagesAr: Record<(typeof marketingSlugs)[number], MarketingPage> =
     eyebrow: "قانوني",
     title: "سياسة ملفات تعريف الارتباط",
     subtitle:
-      "كيفية استخدام ملفات تعريف الارتباط والتقنيات المشابهة داخل Interviewly.",
+      "كيفية استخدام ملفات تعريف الارتباط والتقنيات المشابهة داخل wzzfny.",
     lastUpdated: "6 فبراير 2026",
     sections: [
       {
@@ -1670,7 +1710,7 @@ const marketingPagesAr: Record<(typeof marketingSlugs)[number], MarketingPage> =
       {
         title: "تواصل",
         body:
-          "للاستفسارات: privacy@interviewly.ai.",
+          "للاستفسارات: privacy@wzzfny.ai.",
       },
     ],
   },
@@ -1683,3 +1723,4 @@ export const getMarketingPage = (slug: string, locale: Locale) => {
   const pages = locale === "ar" ? marketingPagesAr : marketingPagesEn;
   return pages[slug as (typeof marketingSlugs)[number]] ?? null;
 };
+

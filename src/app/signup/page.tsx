@@ -19,7 +19,7 @@ export default function SignupPage() {
   const copy =
     locale === "ar"
       ? {
-          title: "أنشئ حسابك في Interviewly",
+          title: "أنشئ حسابك في wzzfny",
           subtitle: "اضبط ملفك حتى نخصص خطة التدريب لك.",
           fullName: "الاسم الكامل",
           email: "البريد الإلكتروني",
@@ -37,7 +37,7 @@ export default function SignupPage() {
           emailRequired: "البريد الإلكتروني مطلوب.",
         }
       : {
-          title: "Create your Interviewly account",
+          title: "Create your wzzfny account",
           subtitle: "Set up your profile so we can personalize your practice plan.",
           fullName: "Full name",
           email: "Email",
@@ -310,3 +310,4 @@ export default function SignupPage() {
     </AuthShell>
   );
 }
+

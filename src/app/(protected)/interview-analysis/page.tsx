@@ -43,6 +43,36 @@ const improvementTipsAr = [
   "حافظ على 90–120 ثانية للإجابة مع ملخص 20 ثانية في النهاية.",
 ];
 
+const analysisChecksEn = [
+  "Scores use a rubric for clarity, structure, impact, and delivery.",
+  "Each score is backed by at least one evidence item.",
+  "Low-confidence signals are flagged for review.",
+  "Insights are for practice guidance, not hiring decisions.",
+];
+
+const analysisChecksAr = [
+  "الدرجات مبنية على معيار للوضوح والبنية والأثر وطريقة الإلقاء.",
+  "كل درجة مدعومة بدليل واحد على الأقل.",
+  "يتم تعليم المناطق منخفضة الثقة للمراجعة.",
+  "التحليل مخصص للتدريب وليس قرار توظيف.",
+];
+
+const analysisEvidenceEn = [
+  "Transcript with timestamps for each answer.",
+  "Speech rate, pause ratio, and filler-word rate.",
+  "STAR structure checklist with highlighted sentences.",
+  "Eye contact ratio when video is enabled.",
+  "Outcome/metric detection (time, cost, revenue).",
+];
+
+const analysisEvidenceAr = [
+  "نص الإجابات مع توقيتات دقيقة لكل جزء.",
+  "سرعة الكلام ونسبة التوقف ومعدل كلمات الحشو.",
+  "قائمة تحقق لبنية STAR مع تمييز الجمل.",
+  "نسبة التواصل البصري عند تفعيل الفيديو.",
+  "رصد النتائج الرقمية (وقت، تكلفة، إيراد).",
+];
+
 const performanceHistoryData = [
   { date: "2026-01-10", score: 72 },
   { date: "2026-01-18", score: 76 },
@@ -158,11 +188,19 @@ export default async function InterviewAnalysisPage() {
     videoPreview: isArabic ? "معاينة الفيديو" : "Video preview",
     playWithFeedback: isArabic ? "تشغيل مع الملاحظات" : "Play with feedback",
     feedbackHighlights: isArabic ? "أبرز الملاحظات" : "Feedback highlights",
+    analysisMethod: isArabic ? "كيف يتم حساب التحليل" : "How the analysis is computed",
+    analysisMethodSubtitle: isArabic
+      ? "منهجية واضحة مع أدلة قابلة للتحقق."
+      : "A transparent methodology backed by verifiable evidence.",
+    analysisEvidence: isArabic ? "الأدلة المستخدمة" : "Evidence used",
+    analysisChecks: isArabic ? "قواعد التقييم" : "Scoring checks",
   };
 
   const strengths = isArabic ? strengthsAr : strengthsEn;
   const weaknesses = isArabic ? weaknessesAr : weaknessesEn;
   const improvementTips = isArabic ? improvementTipsAr : improvementTipsEn;
+  const analysisChecks = isArabic ? analysisChecksAr : analysisChecksEn;
+  const analysisEvidence = isArabic ? analysisEvidenceAr : analysisEvidenceEn;
   const videoReviews = isArabic ? videoReviewsAr : videoReviewsEn;
   const formatShortDate = (isoDate: string) =>
     new Date(isoDate).toLocaleDateString(
@@ -323,6 +361,37 @@ export default async function InterviewAnalysisPage() {
             {improvementTips.map((tip) => (
               <li key={tip} className="rounded-lg border border-(--border) px-4 py-3">
                 {tip}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <section className="grid gap-6 lg:grid-cols-2">
+        <div className="rounded-2xl border border-(--border) bg-white p-6 shadow-sm">
+          <h2 className="text-lg font-semibold text-(--ink-900)">
+            {copy.analysisMethod}
+          </h2>
+          <p className="mt-1 text-sm text-(--ink-500)">
+            {copy.analysisMethodSubtitle}
+          </p>
+          <ul className="mt-4 space-y-3 text-sm text-(--ink-700)">
+            {analysisChecks.map((item) => (
+              <li key={item} className="rounded-lg border border-(--border) px-4 py-3">
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="rounded-2xl border border-(--border) bg-white p-6 shadow-sm">
+          <h2 className="text-lg font-semibold text-(--ink-900)">
+            {copy.analysisEvidence}
+          </h2>
+          <ul className="mt-4 space-y-3 text-sm text-(--ink-700)">
+            {analysisEvidence.map((item) => (
+              <li key={item} className="flex items-start gap-2">
+                <span className="mt-1 h-2 w-2 rounded-full bg-(--brand-600)" />
+                <span>{item}</span>
               </li>
             ))}
           </ul>

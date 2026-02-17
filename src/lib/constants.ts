@@ -1,5 +1,5 @@
 export const siteConfig = {
-  name: "Interviewly",
+  name: "wzzfny",
   description:
     "AI-powered interview training for live video practice, instant feedback, resume optimization, and personalized growth plans.",
   tagline: "Practice interviews with AI feedback and land your next job",
@@ -91,7 +91,7 @@ export const howItWorks = [
 export const testimonials = [
   {
     quote:
-      "Interviewly made me comfortable on camera and helped me structure answers. I landed my product analyst role in three weeks.",
+      "wzzfny made me comfortable on camera and helped me structure answers. I landed my product analyst role in three weeks.",
     author: "Nadia Hassan",
     title: "Product Analyst",
     company: "BrightCart",
@@ -118,9 +118,9 @@ export const testimonials = [
 export const pricing = [
   {
     name: "Free",
-    price: "0 EGP",
+    price: "$0",
     period: "month",
-    description: "For light practice and a quick preview of Interviewly.",
+    description: "For light practice and a quick preview of wzzfny.",
     features: [
       "Basic dashboard (interview count)",
       "1 behavioral interview / month (no video)",
@@ -132,10 +132,12 @@ export const pricing = [
     highlighted: false,
   },
   {
-    name: "Pro",
-    price: "149 EGP",
+    name: "Paid",
+    price: "$10",
     period: "month",
-    description: "Most popular for active job seekers.",
+    secondaryPrice: "$80",
+    secondaryPeriod: "year",
+    description: "Full access for serious job seekers.",
     features: [
       "Full dashboard + progress tracking",
       "Unlimited interviews (behavioral / technical / mixed)",
@@ -145,25 +147,12 @@ export const pricing = [
       "Unlimited resume improvements",
       "Full practice questions library",
       "Save all interviews & reports",
-    ],
-    cta: "Start Pro",
-    highlighted: true,
-  },
-  {
-    name: "Premium",
-    price: "299 EGP",
-    period: "month",
-    description: "For candidates who want the full advantage.",
-    features: [
-      "Everything in Pro",
       "Advanced video feedback (timestamped comments)",
       "Personalized training & daily exercises",
-      "Real company interview simulations",
-      "Job readiness score",
       "Priority access & support",
     ],
-    cta: "Start Premium",
-    highlighted: false,
+    cta: "Start Paid",
+    highlighted: true,
   },
 ];
 
@@ -171,7 +160,7 @@ export const faqs = [
   {
     question: "How does the AI evaluate my answers?",
     answer:
-      "Interviewly analyzes clarity, structure, tone, pacing, and body language. You receive a detailed report with strengths, gaps, and tips after each response.",
+      "wzzfny analyzes clarity, structure, tone, pacing, and body language. You receive a detailed report with strengths, gaps, and tips after each response.",
   },
   {
     question: "What equipment do I need?",
@@ -236,7 +225,8 @@ export const footerLinks = {
 };
 
 export const socialLinks = [
-  { name: "Twitter", href: "#", icon: "Twitter" },
-  { name: "GitHub", href: "#", icon: "Github" },
-  { name: "LinkedIn", href: "#", icon: "Linkedin" },
+  { name: "X", href: "https://x.com/namex308", icon: "Twitter" },
+  { name: "LinkedIn", href: "https://www.linkedin.com/in/ali-hashem-1044883a8", icon: "Linkedin" },
+  { name: "WhatsApp", href: "https://wa.me/201050008664", icon: "MessageCircle" },
 ];
+

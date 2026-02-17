@@ -206,7 +206,7 @@ export default function DashboardPage() {
     );
   }
 
-  const displayName = profile?.full_name?.trim() || (isArabic ? "عضو Interviewly" : "Interviewly member");
+  const displayName = profile?.full_name?.trim() || (isArabic ? "عضو wzzfny" : "wzzfny member");
   const accountLabel = profile
     ? formatAccountType(profile.account_type, locale)
     : isArabic
@@ -393,7 +393,7 @@ export default function DashboardPage() {
             {isArabic ? "إدارة الفوترة" : "Manage billing"}
           </Link>
         </div>
-        <div className="mt-4 grid gap-4 md:grid-cols-3">
+        <div className="mt-4 grid gap-4 md:grid-cols-2">
           {content.pricing.map((plan) => (
             <div
               key={plan.id}
@@ -416,6 +416,11 @@ export default function DashboardPage() {
                   /{plan.period}
                 </span>
               </div>
+              {plan.secondaryPrice && plan.secondaryPeriod ? (
+                <div className="mt-1 text-sm opacity-80">
+                  {isArabic ? "أو" : "or"} {plan.secondaryPrice} / {plan.secondaryPeriod}
+                </div>
+              ) : null}
               <ul className="mt-3 space-y-2 text-sm">
                 {plan.features.map((feature) => (
                   <li key={feature}>• {feature}</li>
@@ -428,3 +433,4 @@ export default function DashboardPage() {
     </div>
   );
 }
+

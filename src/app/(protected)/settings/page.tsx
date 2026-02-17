@@ -11,7 +11,7 @@ export default function SettingsPage() {
   const isArabic = locale === "ar";
   const copy = {
     settings: isArabic ? "الإعدادات" : "Settings",
-    title: isArabic ? "إعدادات Interviewly" : "Interviewly settings",
+    title: isArabic ? "إعدادات wzzfny" : "wzzfny settings",
     subtitle: isArabic
       ? "أدر ملفك وتفضيلاتك والفوترة في مكان واحد."
       : "Manage your profile, preferences, and billing in one place.",
@@ -62,25 +62,26 @@ export default function SettingsPage() {
   const languages = isArabic
     ? ["العربية", "الإنجليزية", "الفرنسية", "الإسبانية"]
     : ["English", "Arabic", "French", "Spanish"];
-  const [name, setName] = useState(isArabic ? "عضو Interviewly" : "Interviewly Member");
-  const [email, setEmail] = useState("member@interviewly.ai");
+  const [name, setName] = useState(isArabic ? "عضو wzzfny" : "wzzfny Member");
+  const [email, setEmail] = useState("member@wzzfny.ai");
   const [language, setLanguage] = useState(languages[0]);
   const [darkMode, setDarkMode] = useState(false);
   const [emailAlerts, setEmailAlerts] = useState(true);
   const [browserAlerts, setBrowserAlerts] = useState(false);
-  const [currentPlan, setCurrentPlan] = useState<"free" | "pro" | "premium">("pro");
-  const planDetails = content.pricing.find((plan) => plan.id === currentPlan) ?? content.pricing[1];
+  const [currentPlan, setCurrentPlan] = useState<"free" | "paid">("paid");
+  const planDetails =
+    content.pricing.find((plan) => plan.id === currentPlan) ?? content.pricing[0];
   const formatDate = (isoDate: string, options?: Intl.DateTimeFormatOptions) =>
     new Date(isoDate).toLocaleDateString(
       isArabic ? "ar-EG" : "en-US",
       options ?? { year: "numeric", month: "short", day: "2-digit" },
     );
-  const proPlanName =
-    content.pricing.find((plan) => plan.id === "pro")?.name ?? (isArabic ? "محترف" : "Pro");
+  const paidPlanName =
+    content.pricing.find((plan) => plan.id === "paid")?.name ?? (isArabic ? "مدفوع" : "Paid");
   const billingHistory = [
-    { date: formatDate("2026-02-02"), amount: "149 EGP", plan: proPlanName, period: copy.monthly },
-    { date: formatDate("2026-01-02"), amount: "149 EGP", plan: proPlanName, period: copy.monthly },
-    { date: formatDate("2025-12-02"), amount: "149 EGP", plan: proPlanName, period: copy.monthly },
+    { date: formatDate("2026-02-02"), amount: "$10", plan: paidPlanName, period: copy.monthly },
+    { date: formatDate("2026-01-02"), amount: "$10", plan: paidPlanName, period: copy.monthly },
+    { date: formatDate("2025-12-02"), amount: "$10", plan: paidPlanName, period: copy.monthly },
   ];
 
   return (
@@ -243,6 +244,11 @@ export default function SettingsPage() {
               <p className="mt-2 text-lg font-semibold text-(--ink-900)">
                 {planDetails.name} — {planDetails.price} / {planDetails.period}
               </p>
+              {planDetails.secondaryPrice && planDetails.secondaryPeriod ? (
+                <p className="mt-1 text-xs text-(--ink-500)">
+                  {isArabic ? "أو" : "or"} {planDetails.secondaryPrice} / {planDetails.secondaryPeriod}
+                </p>
+              ) : null}
               <p className="mt-1 text-xs text-(--ink-500)">
                 {copy.renewsOn} {formatDate("2026-03-02", { year: "numeric", month: "short", day: "2-digit" })}
               </p>
@@ -288,6 +294,11 @@ export default function SettingsPage() {
                       <p className="text-xs text-(--ink-500)">
                         /{plan.period}
                       </p>
+                      {plan.secondaryPrice && plan.secondaryPeriod ? (
+                        <p className="text-xs text-(--ink-500)">
+                          {isArabic ? "أو" : "or"} {plan.secondaryPrice} / {plan.secondaryPeriod}
+                        </p>
+                      ) : null}
                     </div>
                   </div>
                   <ul className="mt-3 space-y-2 text-xs text-(--ink-600)">
@@ -384,3 +395,4 @@ export default function SettingsPage() {
     </div>
   );
 }
+

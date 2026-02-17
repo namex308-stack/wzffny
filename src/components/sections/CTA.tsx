@@ -9,7 +9,7 @@ export async function CTA() {
   const content = getSiteContent(locale);
 
   return (
-    <section className="py-24 bg-indigo-600">
+    <section className="cv-auto py-24 bg-indigo-600">
       <Container>
         <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-500 to-purple-600 p-12 md:p-16">
           {/* Background decoration */}

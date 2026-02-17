@@ -26,10 +26,11 @@ export function Pricing() {
           freeActivationError: "We couldn't activate the free plan yet.",
           loading: "Loading...",
         };
+  const secondaryPrefix = locale === "ar" ? "أو" : "or";
   const [submittingPlan, setSubmittingPlan] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const handlePlanSelection = async (planId: "free" | "pro" | "premium") => {
+  const handlePlanSelection = async (planId: "free" | "paid") => {
     if (!planId) {
       setErrorMessage(messages.selectionError);
       return;
@@ -69,16 +70,19 @@ export function Pricing() {
   };
 
   return (
-    <section id="pricing" className="py-24 bg-white">
+    <section id="pricing" className="cv-auto py-24 bg-white">
       <Container>
         <SectionHeader
           eyebrow={content.copy.sections.pricing.eyebrow}
           title={content.copy.sections.pricing.title}
           subtitle={content.copy.sections.pricing.subtitle}
         />
+        <div className="mx-auto mt-6 max-w-2xl rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-center text-sm font-semibold text-amber-900">
+          {content.copy.sections.pricing.promotion}
+        </div>
 
         {/* Pricing Cards */}
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {content.pricing.map((plan) => (
             <div
               key={plan.name}
@@ -124,6 +128,15 @@ export function Pricing() {
                     </span>
                   )}
                 </div>
+                {plan.secondaryPrice && plan.secondaryPeriod ? (
+                  <p
+                    className={`mt-2 text-sm ${
+                      plan.highlighted ? "text-indigo-100" : "text-gray-500"
+                    }`}
+                  >
+                    {secondaryPrefix} {plan.secondaryPrice} / {plan.secondaryPeriod}
+                  </p>
+                ) : null}
                 <p
                   className={`mt-2 text-sm ${
                     plan.highlighted ? "text-indigo-200" : "text-gray-500"

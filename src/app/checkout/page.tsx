@@ -15,7 +15,7 @@ export default function CheckoutPage() {
   const content = getSiteContent(locale);
   const isArabic = locale === "ar";
   const copy = {
-    billingLabel: isArabic ? "فواتير Interviewly" : "Interviewly Billing",
+    billingLabel: isArabic ? "فواتير wzzfny" : "wzzfny Billing",
     prepareCheckout: isArabic ? "جارٍ تجهيز عملية الدفع لخطة" : "Preparing",
     checkoutSuffix: isArabic ? "المدفوعة" : "checkout",
     checkoutError: isArabic ? "خطأ في الدفع" : "Checkout error",
@@ -119,3 +119,4 @@ export default function CheckoutPage() {
     </AuthGuard>
   );
 }
+

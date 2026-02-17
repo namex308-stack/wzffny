@@ -53,7 +53,7 @@ export default function ProtectedLayout({
           <aside className="hidden w-64 flex-col border-r border-(--border) bg-white/80 px-6 py-8 lg:flex">
             <div>
               <Link href="/" className="font-display text-2xl text-(--ink-900)">
-                Interviewly
+                wzzfny
               </Link>
               <p className="mt-2 text-sm text-(--ink-500)">
                 {copy.workspace}
@@ -108,7 +108,7 @@ export default function ProtectedLayout({
             <header className="flex flex-wrap items-center justify-between gap-4 border-b border-(--border) bg-white/90 px-6 py-5">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.3em] text-(--ink-500)">
-                  Interviewly
+                  wzzfny
                 </p>
                 <h2 className="mt-1 font-display text-2xl text-(--ink-900)">
                   {pageTitle()}
@@ -132,3 +132,4 @@ export default function ProtectedLayout({
     </AuthGuard>
   );
 }
+

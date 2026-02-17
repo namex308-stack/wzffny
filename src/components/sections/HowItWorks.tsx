@@ -8,7 +8,7 @@ export async function HowItWorks() {
   const content = getSiteContent(locale);
 
   return (
-    <section id="how-it-works" className="py-24 bg-white">
+    <section id="how-it-works" className="cv-auto py-24 bg-white">
       <Container>
         <SectionHeader
           eyebrow={content.copy.sections.howItWorks.eyebrow}

@@ -18,7 +18,7 @@ export default function LoginPage() {
   const copy =
     locale === "ar"
       ? {
-          title: "تسجيل الدخول إلى Interviewly",
+          title: "تسجيل الدخول إلى wzzfny",
           subtitle: "ادخل إلى مساحة التدريب وتحليلات الأداء الخاصة بك.",
           email: "البريد الإلكتروني",
           password: "كلمة المرور",
@@ -34,7 +34,7 @@ export default function LoginPage() {
           goToDashboard: "اذهب إلى لوحة التحكم",
         }
       : {
-          title: "Sign in to Interviewly",
+          title: "Sign in to wzzfny",
           subtitle: "Access your interview workspace and progress insights.",
           email: "Email",
           password: "Password",
@@ -212,3 +212,4 @@ export default function LoginPage() {
     </AuthShell>
   );
 }
+

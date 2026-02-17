@@ -6,10 +6,36 @@ import { Pricing } from "@/components/sections/Pricing";
 import { FAQ } from "@/components/sections/FAQ";
 import { CTA } from "@/components/sections/CTA";
 import { getServerLocale } from "@/lib/locale.server";
+import { defaultOpenGraphImage, defaultTwitterImage } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Pricing | Interviewly",
-  description: "Transparent plans for interview practice, AI feedback, and resume review.",
+  title: "Pricing | wzzfny",
+  description: "Free and paid plans for interview practice, AI feedback, and resume review.",
+  alternates: {
+    canonical: "/pricing",
+  },
+  openGraph: {
+    title: "Pricing | wzzfny",
+    description:
+      "Free and paid plans for interview practice, AI feedback, and resume review.",
+    type: "website",
+    url: "/pricing",
+    images: [
+      {
+        url: defaultOpenGraphImage,
+        width: 1200,
+        height: 630,
+        alt: "wzzfny",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Pricing | wzzfny",
+    description:
+      "Free and paid plans for interview practice, AI feedback, and resume review.",
+    images: [defaultTwitterImage],
+  },
 };
 
 export default async function PricingPage() {
@@ -48,3 +74,4 @@ export default async function PricingPage() {
     </>
   );
 }
+

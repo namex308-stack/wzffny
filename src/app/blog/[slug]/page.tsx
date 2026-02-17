@@ -7,6 +7,7 @@ import { Container } from "@/components/ui/Container";
 import { blogPostsByLocale, getBlogPost, type BlogBlock } from "@/lib/blogPosts";
 import { getServerLocale } from "@/lib/locale.server";
 import { getSiteContent } from "@/lib/siteContent";
+import { defaultOpenGraphImage, defaultTwitterImage } from "@/lib/seo";
 
 interface BlogPageProps {
   params: Promise<{
@@ -40,8 +41,8 @@ function renderBlock(block: BlogBlock, index: number) {
           key={`ul-${index}`}
           className="list-disc list-inside space-y-2 text-gray-700"
         >
-          {block.items.map((item) => (
-            <li key={item}>{item}</li>
+          {block.items.map((item, itemIndex) => (
+            <li key={`item-${index}-${itemIndex}`}>{item}</li>
           ))}
         </ul>
       );
@@ -65,26 +66,40 @@ export async function generateMetadata({ params }: BlogPageProps): Promise<Metad
 
   if (!post) {
     return {
-      title: "Post Not Found | Interviewly Blog",
+      title: "Post Not Found | wzzfny Blog",
     };
   }
 
-  const title = post.metaTitle || `${post.title} | Interviewly Blog`;
+  const title = post.metaTitle || `${post.title} | wzzfny Blog`;
+  const canonical = `/blog/${resolvedParams.slug}`;
 
   return {
     title,
     description: post.metaDescription,
     keywords: post.keywords,
+    alternates: {
+      canonical,
+    },
     openGraph: {
       title,
       description: post.metaDescription,
       type: "article",
-      siteName: "Interviewly",
+      siteName: "wzzfny",
+      url: canonical,
+      images: [
+        {
+          url: defaultOpenGraphImage,
+          width: 1200,
+          height: 630,
+          alt: "wzzfny",
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description: post.metaDescription,
+      images: [defaultTwitterImage],
     },
   };
 }
@@ -131,8 +146,8 @@ export default async function BlogPostPage({ params }: BlogPageProps) {
                   {post.conclusion.text}
                 </p>
                 <ul className="list-disc list-inside space-y-2 text-gray-700">
-                  {post.conclusion.tips.map((tip) => (
-                    <li key={tip}>{tip}</li>
+                  {post.conclusion.tips.map((tip, tipIndex) => (
+                    <li key={`tip-${tipIndex}`}>{tip}</li>
                   ))}
                 </ul>
               </section>
@@ -146,9 +161,9 @@ export default async function BlogPostPage({ params }: BlogPageProps) {
                 {content.copy.blogPost.continueDescription}
               </p>
               <div className="mt-4 grid gap-3 sm:grid-cols-3">
-                {post.internalLinks.map((link) => (
+                {post.internalLinks.map((link, linkIndex) => (
                   <Link
-                    key={link.label}
+                    key={`link-${linkIndex}-${link.href}`}
                     href={link.href}
                     className="rounded-xl border border-gray-200 bg-white p-4 transition hover:-translate-y-0.5 hover:border-indigo-200 hover:shadow-md"
                   >
@@ -169,3 +184,4 @@ export default async function BlogPostPage({ params }: BlogPageProps) {
     </>
   );
 }
+

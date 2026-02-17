@@ -1,14 +1,23 @@
-# Active Context: Interviewly Landing Page
+# Active Context: wzzfny Landing Page
 
 ## Current State
 
-**Template Status**: ✅ Customized for Interviewly
+**Template Status**: ✅ Customized for wzzfny
 
-The landing page content now reflects Interviewly, an AI-powered interview training platform.
+The landing page content now reflects wzzfny, an AI-powered interview training platform.
 
 Arabic localization and professional typography have been integrated across marketing, auth, billing, and protected app pages.
 
 ## Recently Completed
+- [x] Added LinkedIn, X, and WhatsApp social links across the site footer content and icon map.
+- [x] Improved SEO with JSON-LD schema, updated metadata, and refreshed marketing copy for evidence-backed analysis.
+- [x] Boosted perceived performance via lazy-loaded chat/hero animation and content-visibility on below-the-fold sections.
+- [x] Expanded testimonials and added analysis transparency sections for interview and resume feedback credibility.
+- [x] Simplified pricing to Free/Paid in USD with monthly + yearly pricing, and added a 20% first-month discount banner across pricing, dashboard, settings, and chatbot.
+- [x] Updated site-wide branding from Interviewly to wzzfny across marketing, metadata, auth, and app UI.
+- [x] Corrected English marketing/blog copy, refreshed internal blog links to public pages, and tightened SEO metadata.
+- [x] Added Open Graph/Twitter image routes, sitemap, robots, and site URL helpers for improved SEO.
+- [x] Enabled icon import optimization for better performance.
 - [x] Wired the hero "Watch Sample Feedback" CTA to the AI feedback marketing page.
 - [x] Added a client-only wrapper for the hero animation to prevent hydration mismatches.
 - [x] Renamed `env.local` to `.env.local` so Next.js loads Supabase environment variables.
@@ -94,6 +103,8 @@ Arabic localization and professional typography have been integrated across mark
 - [x] Wired footer/navigation links and FAQ contact CTA to the new pages
 - [x] Implemented auth-aware landing header with Supabase session tracking, username display, and CTA swapping for logged-in vs logged-out users
 - [x] Added static marketing route pages for all footer links, reusing a shared marketing page shell to prevent 404s
+- [x] Added a bilingual (EN/AR) chatbot widget with quick replies and FAQ-aware responses, embedded globally in the root layout
+- [x] Replaced corrupted Arabic blog content with proper UTF-8 Arabic translations to fix display issues
 
 ## Sections Implemented
 

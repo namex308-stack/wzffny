@@ -77,7 +77,7 @@ export function AuthGuard({ children }: AuthGuardProps) {
       <div className="min-h-screen bg-[color:var(--surface)] flex items-center justify-center px-6">
         <div className="max-w-sm text-center">
           <div className="text-sm uppercase tracking-[0.3em] text-[color:var(--ink-500)]">
-            Interviewly
+            wzzfny
           </div>
           <p className="mt-3 text-lg font-semibold text-[color:var(--ink-900)]">
             {copy.verifying}
@@ -92,3 +92,4 @@ export function AuthGuard({ children }: AuthGuardProps) {
 
   return <>{children}</>;
 }
+

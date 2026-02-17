@@ -30,10 +30,12 @@ export type SiteContent = {
     avatar: string;
   }[];
   pricing: {
-    id: "free" | "pro" | "premium";
+    id: "free" | "paid";
     name: string;
     price: string;
     period: string;
+    secondaryPrice?: string;
+    secondaryPeriod?: string;
     description: string;
     features: string[];
     cta: string;
@@ -58,7 +60,7 @@ export type SiteContent = {
       features: { eyebrow: string; title: string; subtitle: string };
       howItWorks: { eyebrow: string; title: string; subtitle: string };
       testimonials: { eyebrow: string; title: string; subtitle: string };
-      pricing: { eyebrow: string; title: string; subtitle: string };
+      pricing: { eyebrow: string; title: string; subtitle: string; promotion: string };
       faq: { eyebrow: string; title: string; subtitle: string };
     };
     faqContact: { prompt: string; linkLabel: string };
@@ -93,9 +95,9 @@ export type SiteContent = {
 
 const siteContentEn: SiteContent = {
   siteConfig: {
-    name: "Interviewly",
+    name: "wzzfny",
     description:
-      "AI-powered interview training for live video practice, instant feedback, resume optimization, and personalized growth plans.",
+      "AI-powered interview training with live video practice, instant feedback, resume optimization, and personalized growth plans.",
     tagline: "Practice interviews with AI feedback and land your next job",
     cta: {
       primary: "Start Practicing",
@@ -103,8 +105,8 @@ const siteContentEn: SiteContent = {
     },
   },
   trustIndicators: [
-    "Instant AI feedback",
-    "Practice on any device",
+    "Evidence-backed insights",
+    "Transparent scoring",
     "Private and secure",
   ],
   navigation: [
@@ -123,7 +125,7 @@ const siteContentEn: SiteContent = {
     {
       title: "AI Performance Reports",
       description:
-        "Detailed feedback on clarity, structure, tone, pacing, and body language after every response.",
+        "Evidence-based feedback with rubric scores, timestamps, and examples from your answers.",
       icon: "BarChart3",
     },
     {
@@ -135,13 +137,13 @@ const siteContentEn: SiteContent = {
     {
       title: "Resume Optimization",
       description:
-        "Upload PDF or DOCX to receive formatting, keyword, and impact improvements.",
+        "ATS-ready edits with keyword coverage, formatting checks, and impact rewrites.",
       icon: "FileText",
     },
     {
       title: "Personalized Training Plan",
       description:
-        "Adaptive practice plans, progress tracking, and skill milestones tailored to your goals.",
+        "Adaptive plans based on observed gaps, progress trends, and your target role.",
       icon: "Target",
     },
     {
@@ -180,7 +182,7 @@ const siteContentEn: SiteContent = {
   testimonials: [
     {
       quote:
-        "Interviewly made me comfortable on camera and helped me structure answers. I landed my product analyst role in three weeks.",
+        "wzzfny made me comfortable on camera and helped me structure answers. I landed my product analyst role in three weeks.",
       author: "Nadia Hassan",
       title: "Product Analyst",
       company: "BrightCart",
@@ -202,66 +204,83 @@ const siteContentEn: SiteContent = {
       company: "Northwind",
       avatar: "PP",
     },
+    {
+      quote:
+        "The video feedback called out my filler-word spikes with timestamps. That made practice measurable and easy to fix.",
+      author: "Omar El-Masry",
+      title: "Data Analyst",
+      company: "Atlas Health",
+      avatar: "OE",
+    },
+    {
+      quote:
+        "The resume review highlighted weak metrics and gave before-and-after rewrites. I finally had bullets that showed impact.",
+      author: "Lena Roberts",
+      title: "UX Researcher",
+      company: "Fieldstone",
+      avatar: "LR",
+    },
+    {
+      quote:
+        "I liked that the report showed evidence, not generic tips. The pacing chart and STAR checklist helped me tighten stories.",
+      author: "Carlos Vega",
+      title: "Customer Success Manager",
+      company: "Beaconline",
+      avatar: "CV",
+    },
   ],
   pricing: [
     {
       id: "free",
       name: "Free",
-      price: "0 EGP",
+      price: "$0",
       period: "month",
-      description: "For light practice and a quick preview of Interviewly.",
+      description: "For light practice and a quick preview of wzzfny.",
       features: [
         "Basic dashboard (interview count)",
         "1 behavioral interview / month (no video)",
-        "Resume upload: 1 time (basic AI feedback)",
+        "Resume upload: once (basic AI feedback)",
         "Limited practice questions",
-        "Save last report only",
+        "Save only the most recent report",
       ],
       cta: "Start Free",
       highlighted: false,
     },
     {
-      id: "pro",
-      name: "Pro",
-      price: "149 EGP",
+      id: "paid",
+      name: "Paid",
+      price: "$10",
       period: "month",
-      description: "Most popular for active job seekers.",
+      secondaryPrice: "$80",
+      secondaryPeriod: "year",
+      description: "Full access for serious job seekers.",
       features: [
         "Full dashboard + progress tracking",
-        "Unlimited interviews (behavioral / technical / mixed)",
-        "Video interview recording",
-        "AI analysis (answers, voice, body language)",
+        "Unlimited interviews (behavioral, technical, or mixed)",
+        "Video interview recordings",
+        "AI analysis (answers, voice, and body language)",
         "Detailed reports + charts",
         "Unlimited resume improvements",
         "Full practice questions library",
-        "Save all interviews & reports",
-      ],
-      cta: "Start Pro",
-      highlighted: true,
-    },
-    {
-      id: "premium",
-      name: "Premium",
-      price: "299 EGP",
-      period: "month",
-      description: "For candidates who want the full advantage.",
-      features: [
-        "Everything in Pro",
+        "Save all interviews and reports",
         "Advanced video feedback (timestamped comments)",
-        "Personalized training & daily exercises",
-        "Real company interview simulations",
-        "Job readiness score",
-        "Priority access & support",
+        "Personalized training and daily exercises",
+        "Priority access and support",
       ],
-      cta: "Start Premium",
-      highlighted: false,
+      cta: "Start Paid",
+      highlighted: true,
     },
   ],
   faqs: [
     {
       question: "How does the AI evaluate my answers?",
       answer:
-        "Interviewly analyzes clarity, structure, tone, pacing, and body language. You receive a detailed report with strengths, gaps, and tips after each response.",
+        "wzzfny analyzes clarity, structure, tone, pacing, and body language. You receive a detailed report with strengths, gaps, and tips after each response.",
+    },
+    {
+      question: "How accurate is the analysis?",
+      answer:
+        "We score each response using a transparent rubric and measurable signals (speech rate, filler-word rate, eye contact when video is enabled). Every insight links back to evidence like timestamps or example phrases, and low-confidence areas are flagged for review. It’s guidance for practice, not a hiring decision.",
     },
     {
       question: "What equipment do I need?",
@@ -326,9 +345,9 @@ const siteContentEn: SiteContent = {
     ],
   },
   socialLinks: [
-    { name: "Twitter", href: "#", icon: "Twitter" },
-    { name: "GitHub", href: "#", icon: "Github" },
-    { name: "LinkedIn", href: "#", icon: "Linkedin" },
+    { name: "X", href: "https://x.com/namex308", icon: "Twitter" },
+    { name: "LinkedIn", href: "https://www.linkedin.com/in/ali-hashem-1044883a8", icon: "Linkedin" },
+    { name: "WhatsApp", href: "https://wa.me/201050008664", icon: "MessageCircle" },
   ],
   copy: {
     heroBadge: "AI-powered interview practice — Start training in minutes",
@@ -349,12 +368,14 @@ const siteContentEn: SiteContent = {
       testimonials: {
         eyebrow: "Testimonials",
         title: "Loved by job seekers",
-        subtitle: "Real people, real interviews, real results.",
+        subtitle: "Real people, real interviews, measurable progress.",
       },
       pricing: {
         eyebrow: "Pricing",
         title: "Simple, transparent pricing",
-        subtitle: "Clear monthly pricing in EGP.",
+        subtitle: "Clear monthly and yearly pricing in USD.",
+        promotion:
+          "One-month discount: Save 20% on your first month for both Free and Paid plans.",
       },
       faq: {
         eyebrow: "FAQ",
@@ -369,19 +390,19 @@ const siteContentEn: SiteContent = {
     cta: {
       title: "Ready to ace your next interview?",
       subtitle:
-        "Join candidates building confidence with Interviewly. Start practicing today and get instant AI feedback.",
+        "Join candidates who are building confidence with wzzfny. Start practicing today and get instant AI feedback.",
       button: "View Sample Report",
     },
     blogIndex: {
-      eyebrow: "Interviewly Blog",
+      eyebrow: "wzzfny Blog",
       title: "Career tips, interview prep, and resume strategy",
       subtitle:
-        "Practical guidance for job seekers, fresh graduates, and professionals looking to level up.",
+        "Practical guidance for job seekers, new graduates, and professionals looking to level up.",
       readArticle: "Read article →",
     },
     blogPost: {
       conclusionTitle: "Conclusion and Actionable Tips",
-      continueTitle: "Continue with Interviewly",
+      continueTitle: "Continue with wzzfny",
       continueDescription:
         "Explore the main platform areas to keep improving your interview skills and resume.",
     },
@@ -404,7 +425,7 @@ const siteContentEn: SiteContent = {
 
 const siteContentAr: SiteContent = {
   siteConfig: {
-    name: "Interviewly",
+    name: "wzzfny",
     description:
       "تدريب مقابلات بالذكاء الاصطناعي للممارسة بالفيديو المباشر، وملاحظات فورية، وتحسين السيرة الذاتية، وخطط نمو مخصصة.",
     tagline: "تدرّب على المقابلات مع ملاحظات الذكاء الاصطناعي واحصل على وظيفتك التالية",
@@ -414,8 +435,8 @@ const siteContentAr: SiteContent = {
     },
   },
   trustIndicators: [
-    "ملاحظات فورية من الذكاء الاصطناعي",
-    "تدرّب على أي جهاز",
+    "رؤى مدعومة بالأدلة",
+    "تقييمات شفافة",
     "خاص وآمن",
   ],
   navigation: [
@@ -434,7 +455,7 @@ const siteContentAr: SiteContent = {
     {
       title: "تقارير أداء بالذكاء الاصطناعي",
       description:
-        "ملاحظات مفصّلة حول الوضوح والبنية والنبرة والسرعة ولغة الجسد بعد كل إجابة.",
+        "ملاحظات مدعومة بالأدلة مع درجات معيارية وتوقيتات وأمثلة من إجاباتك.",
       icon: "BarChart3",
     },
     {
@@ -446,13 +467,13 @@ const siteContentAr: SiteContent = {
     {
       title: "تحسين السيرة الذاتية",
       description:
-        "حمّل ملفات PDF أو DOCX لتحصل على تحسينات في التنسيق والكلمات المفتاحية والأثر.",
+        "تحسينات جاهزة لـ ATS مع فحص التنسيق والكلمات المفتاحية وإعادة صياغة الأثر.",
       icon: "FileText",
     },
     {
       title: "خطة تدريب مخصصة",
       description:
-        "خطط تدريب تكيفية، وتتبع للتقدم، ومهارات رئيسية مصممة لأهدافك.",
+        "خطط تكيفية مبنية على الفجوات الملحوظة وتقدمك والدور المستهدف.",
       icon: "Target",
     },
     {
@@ -491,7 +512,7 @@ const siteContentAr: SiteContent = {
   testimonials: [
     {
       quote:
-        "جعلني Interviewly مرتاحًا أمام الكاميرا وساعدني على تنظيم الإجابات. حصلت على وظيفة محلل منتجات خلال ثلاثة أسابيع.",
+        "جعلني wzzfny مرتاحًا أمام الكاميرا وساعدني على تنظيم الإجابات. حصلت على وظيفة محلل منتجات خلال ثلاثة أسابيع.",
       author: "Nadia Hassan",
       title: "محللة منتجات",
       company: "BrightCart",
@@ -513,14 +534,38 @@ const siteContentAr: SiteContent = {
       company: "Northwind",
       avatar: "PP",
     },
+    {
+      quote:
+        "ملاحظات الفيديو حدّدت كلمات الحشو مع توقيتات دقيقة، فأصبحت الممارسة قابلة للقياس وسهلة التحسين.",
+      author: "Omar El-Masry",
+      title: "محلل بيانات",
+      company: "Atlas Health",
+      avatar: "OE",
+    },
+    {
+      quote:
+        "مراجعة السيرة أبرزت ضعف الأرقام وقدّمت إعادة صياغة قبل/بعد، فصارت النقاط تُظهر الأثر.",
+      author: "Lena Roberts",
+      title: "باحثة تجربة مستخدم",
+      company: "Fieldstone",
+      avatar: "LR",
+    },
+    {
+      quote:
+        "أعجبني أن التقرير يعرض الأدلة لا النصائح العامة. مخطط الإيقاع وقائمة STAR ساعداني على شدّ القصص.",
+      author: "Carlos Vega",
+      title: "مدير نجاح العملاء",
+      company: "Beaconline",
+      avatar: "CV",
+    },
   ],
   pricing: [
     {
       id: "free",
       name: "مجاني",
-      price: "0 EGP",
+      price: "$0",
       period: "شهر",
-      description: "للتجربة الخفيفة ومعاينة سريعة لـ Interviewly.",
+      description: "للتجربة الخفيفة ومعاينة سريعة لـ wzzfny.",
       features: [
         "لوحة بيانات أساسية (عدد المقابلات)",
         "مقابلة سلوكية واحدة شهريًا (بدون فيديو)",
@@ -532,11 +577,13 @@ const siteContentAr: SiteContent = {
       highlighted: false,
     },
     {
-      id: "pro",
-      name: "احترافي",
-      price: "149 EGP",
+      id: "paid",
+      name: "مدفوع",
+      price: "$10",
       period: "شهر",
-      description: "الأكثر شعبية للباحثين عن عمل بجدية.",
+      secondaryPrice: "$80",
+      secondaryPeriod: "سنة",
+      description: "وصول كامل للباحثين عن عمل بجدية.",
       features: [
         "لوحة بيانات كاملة + تتبع التقدم",
         "مقابلات غير محدودة (سلوكية/تقنية/مختلطة)",
@@ -546,33 +593,24 @@ const siteContentAr: SiteContent = {
         "تحسينات غير محدودة للسيرة الذاتية",
         "مكتبة أسئلة كاملة",
         "حفظ كل المقابلات والتقارير",
-      ],
-      cta: "ابدأ احترافي",
-      highlighted: true,
-    },
-    {
-      id: "premium",
-      name: "مميز",
-      price: "299 EGP",
-      period: "شهر",
-      description: "لمن يريد أفضلية كاملة واستعدادًا عاليًا.",
-      features: [
-        "كل ما في احترافي",
         "تعليقات فيديو متقدمة (محددة بالتوقيت)",
         "تدريب مخصص وتمارين يومية",
-        "محاكاة مقابلات لشركات حقيقية",
-        "درجة جاهزية للوظيفة",
         "أولوية في الوصول والدعم",
       ],
-      cta: "ابدأ مميز",
-      highlighted: false,
+      cta: "ابدأ الخطة المدفوعة",
+      highlighted: true,
     },
   ],
   faqs: [
     {
       question: "كيف يقيّم الذكاء الاصطناعي إجاباتي؟",
       answer:
-        "يحلّل Interviewly الوضوح والبنية والنبرة والسرعة ولغة الجسد. تحصل على تقرير مفصل مع نقاط القوة والفجوات والنصائح بعد كل إجابة.",
+        "يحلّل wzzfny الوضوح والبنية والنبرة والسرعة ولغة الجسد. تحصل على تقرير مفصل مع نقاط القوة والفجوات والنصائح بعد كل إجابة.",
+    },
+    {
+      question: "ما مدى دقة التحليل؟",
+      answer:
+        "نقيّم كل إجابة عبر معيار شفاف وإشارات قابلة للقياس (سرعة الكلام، معدل كلمات الحشو، والتواصل البصري عند تفعيل الفيديو). كل ملاحظة مرتبطة بدليل مثل توقيتات أو أمثلة نصية، ونعلّم المناطق منخفضة الثقة للمراجعة. التحليل موجّه للتدريب وليس قرار توظيف.",
     },
     {
       question: "ما المعدات المطلوبة؟",
@@ -637,9 +675,9 @@ const siteContentAr: SiteContent = {
     ],
   },
   socialLinks: [
-    { name: "تويتر", href: "#", icon: "Twitter" },
-    { name: "جيت هَب", href: "#", icon: "Github" },
-    { name: "لينكدإن", href: "#", icon: "Linkedin" },
+    { name: "X", href: "https://x.com/namex308", icon: "Twitter" },
+    { name: "لينكدإن", href: "https://www.linkedin.com/in/ali-hashem-1044883a8", icon: "Linkedin" },
+    { name: "واتساب", href: "https://wa.me/201050008664", icon: "MessageCircle" },
   ],
   copy: {
     heroBadge: "تدريب مقابلات بالذكاء الاصطناعي — ابدأ خلال دقائق",
@@ -660,12 +698,14 @@ const siteContentAr: SiteContent = {
       testimonials: {
         eyebrow: "آراء المستخدمين",
         title: "محبوب من الباحثين عن عمل",
-        subtitle: "أشخاص حقيقيون، مقابلات حقيقية، نتائج حقيقية.",
+        subtitle: "أشخاص حقيقيون، مقابلات حقيقية، تقدّم قابل للقياس.",
       },
       pricing: {
         eyebrow: "الأسعار",
         title: "أسعار واضحة وبسيطة",
-        subtitle: "أسعار شهرية واضحة بالجنيه المصري.",
+        subtitle: "أسعار شهرية وسنوية واضحة بالدولار الأمريكي.",
+        promotion:
+          "خصم لمدة شهر واحد: وفّر 20٪ على أول شهر في الخطتين المجانية والمدفوعة.",
       },
       faq: {
         eyebrow: "الأسئلة الشائعة",
@@ -680,11 +720,11 @@ const siteContentAr: SiteContent = {
     cta: {
       title: "هل أنت مستعد للتألق في مقابلتك القادمة؟",
       subtitle:
-        "انضم إلى المرشحين الذين يبنون الثقة مع Interviewly. ابدأ التدريب اليوم واحصل على ملاحظات فورية.",
+        "انضم إلى المرشحين الذين يبنون الثقة مع wzzfny. ابدأ التدريب اليوم واحصل على ملاحظات فورية.",
       button: "عرض تقرير نموذجي",
     },
     blogIndex: {
-      eyebrow: "مدونة Interviewly",
+      eyebrow: "مدونة wzzfny",
       title: "نصائح مهنية وتحضير للمقابلات واستراتيجية السيرة الذاتية",
       subtitle:
         "إرشادات عملية للباحثين عن عمل والخريجين الجدد والمهنيين الذين يريدون التطور.",
@@ -692,7 +732,7 @@ const siteContentAr: SiteContent = {
     },
     blogPost: {
       conclusionTitle: "الخلاصة ونصائح قابلة للتنفيذ",
-      continueTitle: "تابع مع Interviewly",
+      continueTitle: "تابع مع wzzfny",
       continueDescription:
         "استكشف أقسام المنصة الرئيسية لمواصلة تطوير مهارات المقابلات والسيرة الذاتية.",
     },
@@ -715,3 +755,4 @@ const siteContentAr: SiteContent = {
 
 export const getSiteContent = (locale: Locale): SiteContent =>
   locale === "ar" ? siteContentAr : siteContentEn;
+

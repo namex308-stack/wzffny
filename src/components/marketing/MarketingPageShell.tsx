@@ -7,6 +7,7 @@ import { Card } from "@/components/ui/Card";
 import { Container } from "@/components/ui/Container";
 import { getServerLocale } from "@/lib/locale.server";
 import { getMarketingPage } from "@/lib/marketingPages";
+import { defaultOpenGraphImage, defaultTwitterImage } from "@/lib/seo";
 
 type MarketingPageShellProps = {
   slug: string;
@@ -18,9 +19,33 @@ export async function getMarketingMetadata(slug: string): Promise<Metadata> {
   if (!page) {
     return { title: "Page not found" };
   }
+  const title = `${page.title} | wzzfny`;
   return {
-    title: `${page.title} | Interviewly`,
+    title,
     description: page.subtitle,
+    alternates: {
+      canonical: `/${slug}`,
+    },
+    openGraph: {
+      title,
+      description: page.subtitle,
+      type: "website",
+      url: `/${slug}`,
+      images: [
+        {
+          url: defaultOpenGraphImage,
+          width: 1200,
+          height: 630,
+          alt: "wzzfny",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description: page.subtitle,
+      images: [defaultTwitterImage],
+    },
   };
 }
 
@@ -263,18 +288,18 @@ export async function MarketingPageShell({ slug }: MarketingPageShellProps) {
                   </h3>
                   <p className="mt-2 text-sm text-slate-600">
                     {isArabic
-                      ? "راسلنا على support@interviewly.ai أو استخدم النموذج وسيتم الرد خلال يومي عمل."
-                      : "Email support@interviewly.ai or use the form and we’ll reply within two business days."}
+                      ? "راسلنا على support@wzzfny.ai أو استخدم النموذج وسيتم الرد خلال يومي عمل."
+                      : "Email support@wzzfny.ai or use the form and we’ll reply within two business days."}
                   </p>
                   <div className="mt-4 space-y-3 text-sm text-slate-600">
                     <div className="rounded-lg border border-slate-100 bg-slate-50 px-3 py-2">
-                      support@interviewly.ai
+                      support@wzzfny.ai
                     </div>
                     <div className="rounded-lg border border-slate-100 bg-slate-50 px-3 py-2">
-                      partnerships@interviewly.ai
+                      partnerships@wzzfny.ai
                     </div>
                     <div className="rounded-lg border border-slate-100 bg-slate-50 px-3 py-2">
-                      press@interviewly.ai
+                      press@wzzfny.ai
                     </div>
                   </div>
                 </div>
@@ -287,3 +312,4 @@ export async function MarketingPageShell({ slug }: MarketingPageShellProps) {
     </>
   );
 }
+

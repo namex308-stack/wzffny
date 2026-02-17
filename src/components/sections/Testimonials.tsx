@@ -10,7 +10,7 @@ export async function Testimonials() {
   const content = getSiteContent(locale);
 
   return (
-    <section className="py-24 bg-gray-50">
+    <section className="cv-auto py-24 bg-gray-50">
       <Container>
         <SectionHeader
           eyebrow={content.copy.sections.testimonials.eyebrow}

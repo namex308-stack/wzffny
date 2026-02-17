@@ -24,7 +24,7 @@ export function AuthShell({ title, subtitle, children, side }: AuthShellProps) {
               <div className="rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface-strong)] p-8 shadow-sm">
                 <div className="mb-6">
                   <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[color:var(--ink-500)]">
-                    Interviewly
+                    wzzfny
                   </p>
                   <h1 className="mt-3 font-display text-3xl text-[color:var(--ink-900)]">
                     {title}
@@ -47,3 +47,4 @@ export function AuthShell({ title, subtitle, children, side }: AuthShellProps) {
     </main>
   );
 }
+

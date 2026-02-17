@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -5,6 +6,42 @@ import { Container } from "@/components/ui/Container";
 import { blogPostsByLocale } from "@/lib/blogPosts";
 import { getServerLocale } from "@/lib/locale.server";
 import { getSiteContent } from "@/lib/siteContent";
+import { defaultOpenGraphImage, defaultTwitterImage } from "@/lib/seo";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getServerLocale();
+  const content = getSiteContent(locale);
+  const title = `${content.copy.blogIndex.title} | wzzfny`;
+  const description = content.copy.blogIndex.subtitle;
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: "/blog",
+    },
+    openGraph: {
+      title,
+      description,
+      type: "website",
+      url: "/blog",
+      images: [
+        {
+          url: defaultOpenGraphImage,
+          width: 1200,
+          height: 630,
+          alt: "wzzfny",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [defaultTwitterImage],
+    },
+  };
+}
 
 export default async function BlogIndexPage() {
   const locale = await getServerLocale();
@@ -58,3 +95,4 @@ export default async function BlogIndexPage() {
     </>
   );
 }
+

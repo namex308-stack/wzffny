@@ -1,7 +1,13 @@
 import type { Metadata } from "next";
 import { Fraunces, Manrope, Noto_Sans_Arabic } from "next/font/google";
+import { ChatWidgetClient } from "@/components/chat/ChatWidgetClient";
 import { LocaleProvider } from "@/components/providers/LocaleProvider";
 import { getServerLocale } from "@/lib/locale.server";
+import {
+  defaultOpenGraphImage,
+  defaultTwitterImage,
+  getMetadataBase,
+} from "@/lib/seo";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -23,9 +29,13 @@ const notoArabic = Noto_Sans_Arabic({
 });
 
 export const metadata: Metadata = {
-  title: "Interviewly - AI Interview Practice and Resume Optimization",
+  metadataBase: getMetadataBase(),
+  title: {
+    default: "wzzfny - AI Interview Practice and Resume Optimization",
+    template: "%s | wzzfny",
+  },
   description:
-    "Practice live video interviews, get instant AI feedback, optimize your resume, and follow a personalized training plan.",
+    "Practice live video interviews, get evidence-backed AI feedback, optimize your resume, and follow a personalized training plan.",
   keywords: [
     "interview practice",
     "mock interview",
@@ -34,20 +44,33 @@ export const metadata: Metadata = {
     "career coaching",
     "job search",
   ],
-  authors: [{ name: "Interviewly" }],
+  authors: [{ name: "wzzfny" }],
+  applicationName: "wzzfny",
+  creator: "wzzfny",
+  publisher: "wzzfny",
   openGraph: {
-    title: "Interviewly - AI Interview Practice and Resume Optimization",
+    title: "wzzfny - AI Interview Practice and Resume Optimization",
     description:
-      "Practice live video interviews, get instant AI feedback, optimize your resume, and follow a personalized training plan.",
+      "Practice live video interviews, get evidence-backed AI feedback, optimize your resume, and follow a personalized training plan.",
+    url: "/",
     type: "website",
     locale: "en_US",
-    siteName: "Interviewly",
+    siteName: "wzzfny",
+    images: [
+      {
+        url: defaultOpenGraphImage,
+        width: 1200,
+        height: 630,
+        alt: "wzzfny",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Interviewly - AI Interview Practice and Resume Optimization",
+    title: "wzzfny - AI Interview Practice and Resume Optimization",
     description:
-      "Practice live video interviews, get instant AI feedback, optimize your resume, and follow a personalized training plan.",
+      "Practice live video interviews, get evidence-backed AI feedback, optimize your resume, and follow a personalized training plan.",
+    images: [defaultTwitterImage],
   },
   robots: {
     index: true,
@@ -68,8 +91,12 @@ export default async function RootLayout({
       <body
         className={`${manrope.variable} ${fraunces.variable} ${notoArabic.variable} antialiased`}
       >
-        <LocaleProvider initialLocale={locale}>{children}</LocaleProvider>
+        <LocaleProvider initialLocale={locale}>
+          {children}
+          <ChatWidgetClient />
+        </LocaleProvider>
       </body>
     </html>
   );
 }
+

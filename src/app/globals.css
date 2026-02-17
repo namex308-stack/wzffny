@@ -24,6 +24,11 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+.cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 800px;
+}
+
 .font-display {
   font-family: var(--font-display);
 }
@@ -83,7 +88,7 @@ html {
   background: #a1a1a1;
 }
 
-/* Interviewly animation helpers */
+/* wzzfny animation helpers */
 @keyframes float {
   0%,
   100% {

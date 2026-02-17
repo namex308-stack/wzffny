@@ -18,7 +18,7 @@ export function FAQ() {
   };
 
   return (
-    <section id="faq" className="py-24 bg-gray-50">
+    <section id="faq" className="cv-auto py-24 bg-gray-50">
       <Container>
         <SectionHeader
           eyebrow={content.copy.sections.faq.eyebrow}

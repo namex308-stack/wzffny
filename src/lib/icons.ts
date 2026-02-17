@@ -9,6 +9,7 @@ import {
   Twitter,
   Github,
   Linkedin,
+  MessageCircle,
   type LucideIcon,
 } from "lucide-react";
 
@@ -23,6 +24,7 @@ export const iconMap: Record<string, LucideIcon> = {
   Twitter,
   Github,
   Linkedin,
+  MessageCircle,
 };
 
 export function getIcon(name: string, fallback: LucideIcon = Zap): LucideIcon {

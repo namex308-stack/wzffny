@@ -24,7 +24,7 @@ export default function CheckoutResultPage() {
   const { locale } = useLocale();
   const isArabic = locale === "ar";
   const copy = {
-    billingLabel: isArabic ? "فواتير Interviewly" : "Interviewly Billing",
+    billingLabel: isArabic ? "فواتير wzzfny" : "wzzfny Billing",
     missingTitle: isArabic ? "بيانات الطلب مفقودة" : "Missing order information",
     missingBody: isArabic
       ? "لم نتمكن من العثور على طلبك. يرجى بدء عملية الدفع مرة أخرى."
@@ -187,3 +187,4 @@ export default function CheckoutResultPage() {
     </AuthGuard>
   );
 }
+
