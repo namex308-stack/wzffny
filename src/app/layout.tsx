@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Fraunces, Manrope, Noto_Sans_Arabic } from "next/font/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { ChatWidgetClient } from "@/components/chat/ChatWidgetClient";
 import { LocaleProvider } from "@/components/providers/LocaleProvider";
 import { getServerLocale } from "@/lib/locale.server";
@@ -95,6 +96,7 @@ export default async function RootLayout({
           {children}
           <ChatWidgetClient />
         </LocaleProvider>
+        <SpeedInsights />
       </body>
     </html>
   );
