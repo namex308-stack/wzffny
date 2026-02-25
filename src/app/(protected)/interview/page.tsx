@@ -3,8 +3,12 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useLocale } from "@/components/providers/LocaleProvider";
+import {
+  readInterviewFlowStage,
+  setInterviewFlowStage,
+} from "@/lib/interviewFlow";
 
 type Recording = {
   url: string;
@@ -69,6 +73,7 @@ const formatTime = (seconds: number) => {
 
 export default function InterviewPage() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const { locale } = useLocale();
   const isArabic = locale === "ar";
   const t = (en: string, ar: string) => (isArabic ? ar : en);
@@ -86,6 +91,11 @@ export default function InterviewPage() {
     reviewDetails: t(
       "Review the details you shared before starting.",
       "راجع التفاصيل التي شاركتها قبل البدء.",
+    ),
+    candidateName: t("Candidate name", "اسم المرشح"),
+    setupRequired: t(
+      "Finish the setup first (name, role, time, focus) to unlock the interview.",
+      "أكمل الإعداد أولاً (الاسم، الدور، الوقت، مجال التركيز) لفتح المقابلة.",
     ),
     editBrief: t("Edit brief", "تعديل الملخص"),
     interviewType: t("Interview type", "نوع المقابلة"),
@@ -151,6 +161,14 @@ export default function InterviewPage() {
       "Type key points or a full response.",
       "اكتب النقاط الرئيسية أو الإجابة كاملة.",
     ),
+    runAnalysis: t("Run AI analysis", "تشغيل تحليل الذكاء الاصطناعي"),
+    reRunAnalysis: t("Re-run analysis", "إعادة التحليل"),
+    analyzing: t("Analyzing your answer...", "جارٍ تحليل إجابتك..."),
+    stillAnalyzing: t("Still analyzing… this may take a few seconds.", "ما زلنا نحلل… قد يستغرق الأمر بضع ثوانٍ."),
+    retrying: t("AI is busy, retrying...", "النظام مشغول، تتم إعادة المحاولة..."),
+    analysisFailed: t("We couldn’t analyze your answer right now. Please try again.", "لم نتمكن من تحليل إجابتك الآن. يرجى المحاولة مرة أخرى."),
+    analysisReady: t("Analysis complete. You can view your insights.", "اكتمل التحليل. يمكنك عرض الملاحظات."),
+    answerRequired: t("Please add a text answer before running analysis.", "يرجى إضافة إجابة نصية قبل تشغيل التحليل."),
     videoSaved: t("Video answer saved", "تم حفظ إجابة الفيديو"),
     downloadVideo: t("Download video answer", "تحميل إجابة الفيديو"),
     timeIsUp: t("Time is up", "انتهى الوقت"),
@@ -162,7 +180,16 @@ export default function InterviewPage() {
       "Review your recordings and notes below.",
       "راجع تسجيلاتك وملاحظاتك أدناه.",
     ),
+    answeredCountLabel: t("Answered", "إجابات مكتملة"),
+    answerBeforeNext: t(
+      "Add a video or text answer before moving to the next question.",
+      "أضف إجابة فيديو أو نصًا قبل الانتقال للسؤال التالي.",
+    ),
     viewAnalysis: t("View analysis", "عرض التحليل"),
+    analysisLocked: t(
+      "Complete every question to unlock analysis.",
+      "أكمل كل الأسئلة لفتح صفحة التحليل.",
+    ),
     startNewInterview: t("Start a new interview", "ابدأ مقابلة جديدة"),
     conversationFlow: t("Conversation flow", "سير الأسئلة"),
     trackQuestions: t(
@@ -202,6 +229,7 @@ export default function InterviewPage() {
     value ? `${value} ${copy.years}` : copy.notSpecified;
 
   const formatSeconds = (value: number) => `${value} ${copy.seconds}`;
+  const [candidateName, setCandidateName] = useState("");
   const [interviewType, setInterviewType] = useState("behavioral");
   const [targetRole, setTargetRole] = useState("");
   const [targetIndustry, setTargetIndustry] = useState("");
@@ -217,6 +245,7 @@ export default function InterviewPage() {
   const [recordText, setRecordText] = useState(true);
   const [readAloud, setReadAloud] = useState(true);
   const [initializedFromQuery, setInitializedFromQuery] = useState(false);
+  const [setupValidated, setSetupValidated] = useState(false);
 
   const [mode, setMode] = useState<InterviewMode | null>(null);
   const [status, setStatus] = useState<InterviewStatus>("idle");
@@ -230,6 +259,10 @@ export default function InterviewPage() {
   const [cameraActive, setCameraActive] = useState(false);
   const [recordings, setRecordings] = useState<Record<string, Recording>>({});
   const [textAnswers, setTextAnswers] = useState<Record<string, string>>({});
+  const [analysisStatus, setAnalysisStatus] = useState<
+    "idle" | "loading" | "long" | "retrying" | "success" | "error"
+  >("idle");
+  const [analysisMessage, setAnalysisMessage] = useState<string | null>(null);
 
   const mediaStreamRef = useRef<MediaStream | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -240,6 +273,7 @@ export default function InterviewPage() {
 
   useEffect(() => {
     if (initializedFromQuery) return;
+    const nameParam = searchParams.get("name");
     const type = searchParams.get("type");
     const role = searchParams.get("role");
     const industry = searchParams.get("industry");
@@ -251,6 +285,7 @@ export default function InterviewPage() {
     const time = searchParams.get("time");
     const notesParam = searchParams.get("notes");
 
+    if (nameParam) setCandidateName(nameParam);
     if (type) setInterviewType(type);
     if (role) setTargetRole(role);
     if (industry) setTargetIndustry(industry);
@@ -289,6 +324,7 @@ export default function InterviewPage() {
 
   const setupQuery = useMemo(() => {
     const params = new URLSearchParams();
+    if (candidateName.trim()) params.set("name", candidateName.trim());
     if (interviewType) params.set("type", interviewType);
     if (targetRole.trim()) params.set("role", targetRole.trim());
     if (targetIndustry.trim()) params.set("industry", targetIndustry.trim());
@@ -301,6 +337,7 @@ export default function InterviewPage() {
     if (notes.trim()) params.set("notes", notes.trim());
     return params.toString();
   }, [
+    candidateName,
     interviewType,
     targetRole,
     targetIndustry,
@@ -311,6 +348,55 @@ export default function InterviewPage() {
     timePerQuestion,
     focusAreas,
     notes,
+  ]);
+
+  const isExperienceValid = useMemo(() => {
+    const trimmed = experienceYears.trim();
+    if (!trimmed) return false;
+    const num = Number(trimmed);
+    return Number.isFinite(num) && num >= 0 && num <= 40;
+  }, [experienceYears]);
+
+  const requiredSetupComplete = useMemo(
+    () =>
+      candidateName.trim().length > 1 &&
+      Boolean(interviewType) &&
+      Boolean(targetRole.trim()) &&
+      Boolean(seniority.trim()) &&
+      isExperienceValid &&
+      focusAreas.length > 0 &&
+      timePerQuestion > 0,
+    [
+      candidateName,
+      focusAreas,
+      interviewType,
+      isExperienceValid,
+      seniority,
+      targetRole,
+      timePerQuestion,
+    ],
+  );
+
+  useEffect(() => {
+    if (!initializedFromQuery) return;
+    if (!requiredSetupComplete) {
+      setErrorMessage(copy.setupRequired);
+      router.replace(
+        `/interview-setup${setupQuery ? `?${setupQuery}` : ""}`,
+      );
+      return;
+    }
+    setSetupValidated(true);
+    const stage = readInterviewFlowStage();
+    if (stage !== "interview_complete") {
+      setInterviewFlowStage("interview_in_progress");
+    }
+  }, [
+    copy.setupRequired,
+    initializedFromQuery,
+    requiredSetupComplete,
+    router,
+    setupQuery,
   ]);
 
   useEffect(() => {
@@ -357,6 +443,25 @@ export default function InterviewPage() {
     recordingsRef.current = recordings;
   }, [recordings]);
 
+  const answeredCount = useMemo(
+    () =>
+      questions.filter((question) => {
+        const recorded = Boolean(recordings[question.id]);
+        const text = textAnswers[question.id]?.trim();
+        return recorded || Boolean(text);
+      }).length,
+    [questions, recordings, textAnswers],
+  );
+
+  const allQuestionsAnswered =
+    questions.length > 0 && answeredCount === questions.length;
+
+  useEffect(() => {
+    if (status === "completed" && allQuestionsAnswered) {
+      setInterviewFlowStage("interview_complete");
+    }
+  }, [allQuestionsAnswered, status]);
+
   useEffect(() => {
     return () => {
       if (recorderRef.current?.state === "recording") {
@@ -385,6 +490,12 @@ export default function InterviewPage() {
   };
 
   const startInterview = (selectedMode: InterviewMode) => {
+    if (!requiredSetupComplete || !setupValidated) {
+      setErrorMessage(copy.setupRequired);
+      return;
+    }
+    setInterviewFlowStage("interview_in_progress");
+    setErrorMessage(null);
     setMode(selectedMode);
     setStatus("active");
     setCurrentIndex(0);
@@ -496,10 +607,19 @@ export default function InterviewPage() {
   const handleNextQuestion = () => {
     stopRecording();
 
+    const questionId = questions[currentIndex]?.id;
+    if (!questionId || !hasAnswer(questionId)) {
+      setErrorMessage(copy.answerBeforeNext);
+      return;
+    }
+
+    setErrorMessage(null);
+
     if (currentIndex + 1 >= questions.length) {
       stopCamera();
       setStatus("completed");
       setMode(null);
+      setInterviewFlowStage("interview_complete");
       return;
     }
 
@@ -558,6 +678,88 @@ export default function InterviewPage() {
     }));
   };
 
+  const logAnalysisError = async (error: unknown, attempt: number) => {
+    console.error("analysis_error", { error, attempt });
+    try {
+      await fetch("/api/log", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ scope: "analysis", attempt, error: String(error) }),
+      });
+    } catch {
+      // swallow logging errors
+    }
+  };
+
+  const requestAnalysisOnce = async (answer: string, signal: AbortSignal) => {
+    const response = await fetch("/api/ai/analyze-answer", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ answer }),
+      signal,
+    });
+    if (!response.ok) {
+      throw new Error(`analysis_request_failed_${response.status}`);
+    }
+    return response.json() as Promise<Record<string, unknown>>;
+  };
+
+  const handleRunAnalysis = async (questionId: string) => {
+    const answer = textAnswers[questionId]?.trim();
+    if (!answer) {
+      setAnalysisStatus("error");
+      setAnalysisMessage(copy.answerRequired);
+      return;
+    }
+    if (["loading", "retrying", "long"].includes(analysisStatus)) {
+      return; // prevent duplicate submissions
+    }
+
+    const MAX_RETRIES = 2;
+    const LONG_WAIT_MS = 5000;
+    const TIMEOUT_MS = 15000;
+
+    setAnalysisStatus("loading");
+    setAnalysisMessage(copy.analyzing);
+
+    let attempt = 0;
+    while (attempt <= MAX_RETRIES) {
+      const controller = new AbortController();
+      const timeoutId = window.setTimeout(() => controller.abort(), TIMEOUT_MS);
+      const longWaitId = window.setTimeout(() => {
+        setAnalysisStatus((prev) =>
+          prev === "loading" || prev === "retrying" ? "long" : prev,
+        );
+        setAnalysisMessage(copy.stillAnalyzing);
+      }, LONG_WAIT_MS);
+
+      try {
+        await requestAnalysisOnce(answer, controller.signal);
+        window.clearTimeout(timeoutId);
+        window.clearTimeout(longWaitId);
+        setAnalysisStatus("success");
+        setAnalysisMessage(copy.analysisReady);
+        return;
+      } catch (error) {
+        window.clearTimeout(timeoutId);
+        window.clearTimeout(longWaitId);
+        await logAnalysisError(error, attempt);
+
+        if (attempt >= MAX_RETRIES) {
+          setAnalysisStatus("error");
+          setAnalysisMessage(copy.analysisFailed);
+          return;
+        }
+
+        setAnalysisStatus("retrying");
+        setAnalysisMessage(copy.retrying);
+        attempt += 1;
+        // brief pause before retry
+        await new Promise((resolve) => setTimeout(resolve, 400));
+      }
+    }
+  };
+
   const currentRecording = currentQuestion
     ? recordings[currentQuestion.id]
     : undefined;
@@ -574,6 +776,8 @@ export default function InterviewPage() {
     }
     return Object.values(textAnswers).some((value) => value.trim().length > 0);
   }, [recordings, textAnswers]);
+
+  const startDisabled = !setupValidated || !requiredSetupComplete;
 
   return (
     <div className="mx-auto max-w-6xl space-y-8">
@@ -633,6 +837,14 @@ export default function InterviewPage() {
               </Link>
             </div>
             <div className="mt-4 grid gap-4 sm:grid-cols-2 text-sm text-(--ink-700)">
+              <div className="rounded-lg border border-(--border) bg-(--brand-50)/40 px-4 py-3">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-(--ink-500)">
+                  {copy.candidateName}
+                </p>
+                <p className="mt-1 text-sm font-semibold text-(--ink-900)">
+                  {candidateName || copy.notSpecified}
+                </p>
+              </div>
               <div className="rounded-lg border border-(--border) bg-(--brand-50)/40 px-4 py-3">
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-(--ink-500)">
                   {copy.interviewType}
@@ -795,28 +1007,40 @@ export default function InterviewPage() {
                     : copy.startSession}
                 </p>
               </div>
-              <span className="rounded-full bg-(--brand-50) px-3 py-1 text-xs font-semibold text-(--brand-700)">
-                {mode
-                  ? mode === "ai"
-                    ? copy.aiInterviewer
-                    : copy.virtualCoach
-                  : copy.notStarted}
-              </span>
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="rounded-full bg-(--brand-50) px-3 py-1 text-xs font-semibold text-(--brand-700)">
+                  {mode
+                    ? mode === "ai"
+                      ? copy.aiInterviewer
+                      : copy.virtualCoach
+                    : copy.notStarted}
+                </span>
+                <span className="rounded-full border border-(--brand-100) bg-(--brand-50)/70 px-3 py-1 text-xs font-semibold text-(--brand-700)">
+                  {copy.answeredCountLabel}: {answeredCount}/{questions.length}
+                </span>
+              </div>
             </div>
 
             {status === "idle" ? (
               <div className="mt-5 space-y-3">
+                {startDisabled ? (
+                  <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-xs font-semibold text-amber-800">
+                    {copy.setupRequired}
+                  </div>
+                ) : null}
                 <button
                   type="button"
-                  className="w-full rounded-lg bg-(--brand-600) px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-(--brand-700)"
+                  className="w-full rounded-lg bg-(--brand-600) px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-(--brand-700) disabled:cursor-not-allowed disabled:bg-(--border) disabled:text-(--ink-500)"
                   onClick={() => startInterview("ai")}
+                  disabled={startDisabled}
                 >
                   {copy.startAi}
                 </button>
                 <button
                   type="button"
-                  className="w-full rounded-lg border border-(--border) px-4 py-2.5 text-sm font-semibold text-(--ink-700) shadow-sm transition hover:border-(--brand-200)"
+                  className="w-full rounded-lg border border-(--border) px-4 py-2.5 text-sm font-semibold text-(--ink-700) shadow-sm transition hover:border-(--brand-200) disabled:cursor-not-allowed disabled:text-(--ink-400)"
                   onClick={() => startInterview("coach")}
+                  disabled={startDisabled}
                 >
                   {copy.startCoach}
                 </button>
@@ -918,6 +1142,37 @@ export default function InterviewPage() {
                       }
                       placeholder={copy.textAnswerPlaceholder}
                     />
+
+                    <div className="mt-3 rounded-lg border border-(--border) bg-(--brand-50)/50 px-3 py-3">
+                      <div className="flex flex-wrap items-center gap-3">
+                        {["loading", "retrying", "long"].includes(analysisStatus) ? (
+                          <span className="inline-flex h-5 w-5 animate-spin rounded-full border-2 border-(--brand-300) border-t-(--brand-600)" />
+                        ) : (
+                          <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-(--brand-100) text-(--brand-700)">
+                            ✓
+                          </span>
+                        )}
+                        <div className="flex-1 min-w-[220px]">
+                          <p className="text-sm font-semibold text-(--ink-900)">
+                            {analysisMessage ?? copy.analyzing}
+                          </p>
+                        </div>
+                        <button
+                          type="button"
+                          className="rounded-lg bg-(--brand-600) px-3 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-(--brand-700) disabled:cursor-not-allowed disabled:bg-slate-300"
+                          onClick={() => handleRunAnalysis(currentQuestion.id)}
+                          disabled={
+                            ["loading", "retrying", "long"].includes(analysisStatus) ||
+                            !textAnswers[currentQuestion.id]?.trim()
+                          }
+                        >
+                          {analysisStatus === "success" ? copy.reRunAnalysis : copy.runAnalysis}
+                        </button>
+                      </div>
+                      {analysisStatus === "error" ? (
+                        <p className="mt-2 text-xs text-red-600">{copy.analysisFailed}</p>
+                      ) : null}
+                    </div>
                   </div>
                 ) : null}
 
@@ -954,7 +1209,9 @@ export default function InterviewPage() {
                   <button
                     type="button"
                     onClick={handleNextQuestion}
-                    className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800"
+                    disabled={!hasAnswer(currentQuestion.id)}
+                    aria-disabled={!hasAnswer(currentQuestion.id)}
+                    className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-(--border) disabled:text-(--ink-500)"
                   >
                     {currentIndex + 1 >= questions.length
                       ? copy.finishInterview
@@ -973,12 +1230,20 @@ export default function InterviewPage() {
                   {copy.reviewRecordings}
                 </p>
                 <div className="mt-4 flex flex-wrap gap-3">
-                  <Link
-                    href={`/interview-analysis${setupQuery ? `?${setupQuery}` : ""}`}
-                    className="rounded-lg bg-(--brand-600) px-3 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-(--brand-700)"
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (!allQuestionsAnswered) return;
+                      router.push(
+                        `/interview-analysis${setupQuery ? `?${setupQuery}` : ""}`,
+                      );
+                    }}
+                    disabled={!allQuestionsAnswered}
+                    className="rounded-lg bg-(--brand-600) px-3 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-(--brand-700) disabled:cursor-not-allowed disabled:bg-(--border) disabled:text-(--ink-500)"
+                    aria-disabled={!allQuestionsAnswered}
                   >
                     {copy.viewAnalysis}
-                  </Link>
+                  </button>
                   <button
                     type="button"
                     className="rounded-lg border border-(--border) px-3 py-2 text-sm font-semibold text-(--ink-700)"
@@ -988,11 +1253,25 @@ export default function InterviewPage() {
                       setCurrentIndex(0);
                       setTimeLeft(timePerQuestion);
                       setTimeUp(false);
+                      Object.values(recordingsRef.current).forEach((recording) =>
+                        URL.revokeObjectURL(recording.url),
+                      );
+                      setRecordings({});
+                      setTextAnswers({});
+                      setAnalysisStatus("idle");
+                      setAnalysisMessage(null);
+                      setInterviewFlowStage("setup_complete");
+                      setErrorMessage(null);
                     }}
                   >
                     {copy.startNewInterview}
                   </button>
                 </div>
+                {!allQuestionsAnswered ? (
+                  <p className="mt-2 text-xs font-semibold text-(--ink-500)">
+                    {copy.analysisLocked}
+                  </p>
+                ) : null}
               </div>
             ) : null}
 

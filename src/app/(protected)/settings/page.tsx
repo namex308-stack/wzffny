@@ -4,6 +4,7 @@
 import { useState } from "react";
 import { useLocale } from "@/components/providers/LocaleProvider";
 import { getSiteContent } from "@/lib/siteContent";
+import type { PlanId } from "@/lib/billing";
 
 export default function SettingsPage() {
   const { locale } = useLocale();
@@ -68,7 +69,7 @@ export default function SettingsPage() {
   const [darkMode, setDarkMode] = useState(false);
   const [emailAlerts, setEmailAlerts] = useState(true);
   const [browserAlerts, setBrowserAlerts] = useState(false);
-  const [currentPlan, setCurrentPlan] = useState<"free" | "paid">("paid");
+  const [currentPlan, setCurrentPlan] = useState<PlanId>("pro_monthly");
   const planDetails =
     content.pricing.find((plan) => plan.id === currentPlan) ?? content.pricing[0];
   const formatDate = (isoDate: string, options?: Intl.DateTimeFormatOptions) =>
@@ -77,11 +78,12 @@ export default function SettingsPage() {
       options ?? { year: "numeric", month: "short", day: "2-digit" },
     );
   const paidPlanName =
-    content.pricing.find((plan) => plan.id === "paid")?.name ?? (isArabic ? "مدفوع" : "Paid");
+    content.pricing.find((plan) => plan.id === "pro_monthly")?.name ??
+    (isArabic ? "برو" : "Pro");
   const billingHistory = [
-    { date: formatDate("2026-02-02"), amount: "$10", plan: paidPlanName, period: copy.monthly },
-    { date: formatDate("2026-01-02"), amount: "$10", plan: paidPlanName, period: copy.monthly },
-    { date: formatDate("2025-12-02"), amount: "$10", plan: paidPlanName, period: copy.monthly },
+    { date: formatDate("2026-02-02"), amount: "EGP 599", plan: paidPlanName, period: copy.monthly },
+    { date: formatDate("2026-01-02"), amount: "EGP 599", plan: paidPlanName, period: copy.monthly },
+    { date: formatDate("2025-12-02"), amount: "EGP 599", plan: paidPlanName, period: copy.monthly },
   ];
 
   return (

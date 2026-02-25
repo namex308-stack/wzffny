@@ -22,12 +22,14 @@ export default function CheckoutPage() {
     redirecting: isArabic
       ? "جارٍ تحويلك إلى Kashier لإتمام الدفع."
       : "We are redirecting you to Kashier to complete your payment.",
-    choosePaid: isArabic ? "يرجى اختيار خطة مدفوعة للمتابعة." : "Please choose a paid plan to continue.",
+    choosePaid: isArabic
+      ? "يرجى اختيار خطة مدفوعة (ستارتر أو برو) للمتابعة."
+      : "Please choose a paid plan (Starter or Pro) to continue.",
     startFailed: isArabic
       ? "تعذر بدء عملية الدفع. يرجى المحاولة مرة أخرى."
       : "We couldn't start the checkout. Please try again.",
     linkMissing: isArabic ? "رابط الدفع غير متوفر. يرجى المحاولة مرة أخرى." : "Checkout link missing. Please try again.",
-    paidPlan: isArabic ? "مدفوعة" : "Paid",
+    paidPlan: isArabic ? "الخطة المختارة" : "Selected plan",
   };
   const choosePaid = copy.choosePaid;
   const startFailed = copy.startFailed;

@@ -2,9 +2,9 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useLocale } from "@/components/providers/LocaleProvider";
+import { setInterviewFlowStage } from "@/lib/interviewFlow";
 
 const interviewTypesEn = [
   { value: "behavioral", label: "Behavioral" },
@@ -18,47 +18,9 @@ const interviewTypesAr = [
   { value: "mixed", label: "مختلط" },
 ];
 
-const industriesEn = [
-  "Software & SaaS",
-  "Fintech",
-  "Healthcare",
-  "E-commerce",
-  "Consulting",
-  "Education",
-  "Marketing & Media",
-  "Operations",
-  "Other",
-];
+const seniorityLevelsEn = ["Student / Intern", "Junior", "Mid-level"];
 
-const industriesAr = [
-  "البرمجيات والخدمات السحابية",
-  "التقنية المالية",
-  "الرعاية الصحية",
-  "التجارة الإلكترونية",
-  "الاستشارات",
-  "التعليم",
-  "التسويق والإعلام",
-  "العمليات",
-  "أخرى",
-];
-
-const seniorityLevelsEn = [
-  "Intern",
-  "Entry level",
-  "Mid level",
-  "Senior",
-  "Lead / Staff",
-  "Manager",
-];
-
-const seniorityLevelsAr = [
-  "متدرب",
-  "مبتدئ",
-  "متوسط",
-  "متقدم",
-  "قيادي / خبير",
-  "مدير",
-];
+const seniorityLevelsAr = ["طالب / متدرب", "مبتدئ", "متوسط"];
 
 const reminderOptionsEn = [
   { value: "30", label: "30 seconds" },
@@ -98,39 +60,31 @@ export default function InterviewSetupPage() {
   const isArabic = locale === "ar";
   const copy = {
     brief: isArabic ? "ملخص المقابلة" : "Interview brief",
-    title: isArabic ? "اضبط تفاصيل المقابلة" : "Set up your interview details",
+    title: isArabic ? "اضبط أساسيات المقابلة" : "Set up the basics",
     subtitle: isArabic
-      ? "حدد الدور المستهدف والصناعة ونقاط التركيز لتبدو المقابلة مخصصة ومهنية."
-      : "Provide your target role, industry, and focus areas to make the interview feel tailored and professional.",
+      ? "بعض التفاصيل السريعة لطلاب ومبتدئين لتخصيص الأسئلة لك."
+      : "A few quick details for students and beginners so we can tailor the questions for you.",
+    fullName: isArabic ? "الاسم الكامل" : "Full name",
+    fullNamePlaceholder: isArabic
+      ? "مثال: علي هاشم علي"
+      : "e.g., Jane Doe",
     interviewType: isArabic ? "نوع المقابلة" : "Interview type",
     timePerQuestion: isArabic ? "الوقت لكل سؤال" : "Time per question",
     targetRole: isArabic ? "الدور المستهدف" : "Target role",
     targetRolePlaceholder: isArabic
-      ? "مثال: مدير منتج، محلل بيانات"
-      : "e.g., Product Manager, Data Analyst",
-    targetIndustry: isArabic ? "الصناعة المستهدفة" : "Target industry",
-    targetCompany: isArabic ? "الشركة المستهدفة (اختياري)" : "Target company (optional)",
-    targetCompanyPlaceholder: isArabic
-      ? "مثال: Stripe، Google، Shopify"
-      : "e.g., Stripe, Google, Shopify",
-    seniority: isArabic ? "المستوى الوظيفي" : "Seniority level",
-    experienceYears: isArabic ? "سنوات الخبرة" : "Years of experience",
-    location: isArabic ? "الموقع أو المنطقة الزمنية" : "Location or time zone",
-    locationPlaceholder: isArabic ? "مثال: الرياض، GMT+3" : "e.g., Riyadh, GMT+3",
-    focusAreas: isArabic ? "مجالات التركيز" : "Focus areas",
-    notes: isArabic ? "ملاحظات إضافية" : "Additional notes",
-    notesPlaceholder: isArabic
-      ? "شارك الأهداف أو التحديات أو ما تود أن يعرفه المحاور."
-      : "Share goals, challenges, or anything you want the interviewer to know.",
-    skip: isArabic ? "تخطَّ الآن" : "Skip for now",
-    continue: isArabic ? "المتابعة للمقابلة" : "Continue to interview",
+      ? "مثال: طالب علوم حاسوب، مطوّر مبتدئ"
+      : "e.g., CS student, Junior developer",
+    seniority: isArabic ? "المستوى" : "Level",
+    experienceYears: isArabic ? "سنوات الخبرة (يمكن أن تكون 0)" : "Years of experience (can be 0)",
+    focusAreas: isArabic ? "أهم ما تريد تحسينه" : "What you want to improve most",
+    continue: isArabic ? "ابدأ الإعداد" : "Continue to interview",
     next: isArabic ? "ماذا سيحدث بعد ذلك" : "What happens next",
     nextIntro: isArabic
       ? "سنستخدم بياناتك لتخصيص مسار الأسئلة والتوقيت."
       : "We will use your brief to tailor the question flow and timing.",
     nextOne: isArabic
-      ? "أسئلة مخصصة حسب الدور والصناعة."
-      : "Tailored questions based on your role and industry.",
+      ? "أسئلة مخصصة حسب الدور والمستوى."
+      : "Tailored questions based on your role and level.",
     nextTwo: isArabic
       ? "تنبيهات زمنية لمساعدتك على الإجابات المختصرة."
       : "Time cues to help you deliver concise answers.",
@@ -139,55 +93,70 @@ export default function InterviewSetupPage() {
       : "Review panel with saved videos and notes after the session.",
     proTip: isArabic ? "نصيحة احترافية" : "Pro tip",
     proTipBody: isArabic
-      ? "اجعل الشركة المستهدفة محددة. يساعد ذلك على التركيز على أمثلة سلوكية وعمق تقني مناسب."
-      : "Keep your target company specific. It helps the interviewer focus on relevant behavioral examples and technical depth.",
+      ? "كن واضحًا حول الدور الذي تتدرب عليه، حتى لو كان تدريبًا أو وظيفة أولى."
+      : "Be specific about the role you’re aiming for, even if it’s an internship or first job.",
+    requiredMessage: isArabic
+      ? "يرجى ملء جميع الحقول المطلوبة قبل المتابعة."
+      : "Please fill in all required fields before continuing.",
+    readyMessage: isArabic
+      ? "جاهز — تم ملء كل شيء، زر المتابعة مفعّل."
+      : "Ready — everything looks good and Next is active.",
+    completeFields: isArabic
+      ? "أكمل الحقول المطلوبة لتفعيل زر المتابعة."
+      : "Complete the required fields to activate Next.",
   };
+  const [fullName, setFullName] = useState("");
   const [interviewType, setInterviewType] = useState("behavioral");
   const [targetRole, setTargetRole] = useState("");
-  const [targetIndustry, setTargetIndustry] = useState(
-    isArabic ? industriesAr[0] : industriesEn[0],
-  );
-  const [targetCompany, setTargetCompany] = useState("");
   const [seniority, setSeniority] = useState(
-    isArabic ? seniorityLevelsAr[2] : seniorityLevelsEn[2],
+    isArabic ? seniorityLevelsAr[0] : seniorityLevelsEn[0],
   );
-  const [experienceYears, setExperienceYears] = useState("3");
-  const [location, setLocation] = useState("");
+  const [experienceYears, setExperienceYears] = useState("0");
   const [timePerQuestion, setTimePerQuestion] = useState("60");
-  const [selectedFocus, setSelectedFocus] = useState<string[]>([
+  const [focusArea, setFocusArea] = useState(
     isArabic ? focusAreasAr[0] : focusAreasEn[0],
-  ]);
-  const [notes, setNotes] = useState("");
+  );
+  const [error, setError] = useState("");
+
+  const isExperienceValid = () => {
+    const trimmed = experienceYears.trim();
+    if (trimmed === "") return false;
+    const num = Number(trimmed);
+    return Number.isFinite(num) && num >= 0 && num <= 40;
+  };
+
+  const isFormValid =
+    Boolean(fullName.trim()) &&
+    Boolean(interviewType) &&
+    Boolean(timePerQuestion) &&
+    Boolean(targetRole.trim()) &&
+    Boolean(seniority) &&
+    Boolean(focusArea) &&
+    isExperienceValid();
 
   const interviewTypes = isArabic ? interviewTypesAr : interviewTypesEn;
-  const industries = isArabic ? industriesAr : industriesEn;
   const seniorityLevels = isArabic ? seniorityLevelsAr : seniorityLevelsEn;
   const reminderOptions = isArabic ? reminderOptionsAr : reminderOptionsEn;
   const focusAreas = isArabic ? focusAreasAr : focusAreasEn;
 
-  const toggleFocus = (value: string) => {
-    setSelectedFocus((prev) =>
-      prev.includes(value)
-        ? prev.filter((item) => item !== value)
-        : [...prev, value],
-    );
-  };
-
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const params = new URLSearchParams();
-    params.set("type", interviewType);
-    if (targetRole.trim()) params.set("role", targetRole.trim());
-    if (targetIndustry) params.set("industry", targetIndustry);
-    if (targetCompany.trim()) params.set("company", targetCompany.trim());
-    if (seniority) params.set("level", seniority);
-    if (experienceYears.trim()) params.set("years", experienceYears.trim());
-    if (location.trim()) params.set("location", location.trim());
-    if (timePerQuestion) params.set("time", timePerQuestion);
-    if (selectedFocus.length > 0)
-      params.set("focus", selectedFocus.join(","));
-    if (notes.trim()) params.set("notes", notes.trim());
+    if (!isFormValid) {
+      setError(copy.requiredMessage);
+      return;
+    }
 
+    setError("");
+    const params = new URLSearchParams();
+    params.set("name", fullName.trim());
+    params.set("type", interviewType);
+    params.set("time", timePerQuestion);
+    params.set("role", targetRole.trim());
+    params.set("level", seniority);
+    params.set("years", experienceYears.trim());
+    if (focusArea) params.set("focus", focusArea);
+
+    setInterviewFlowStage("setup_complete");
     router.push(`/interview?${params.toString()}`);
   };
 
@@ -210,6 +179,35 @@ export default function InterviewSetupPage() {
           className="space-y-6 rounded-2xl border border-(--border) bg-white p-6 shadow-sm"
           onSubmit={handleSubmit}
         >
+          {error ? (
+            <div
+              className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+              role="alert"
+              aria-live="polite"
+            >
+              {error}
+            </div>
+          ) : null}
+
+          <div>
+            <label
+              htmlFor="full-name"
+              className="text-sm font-semibold text-(--ink-700)"
+            >
+              {copy.fullName}
+            </label>
+            <input
+              id="full-name"
+              name="full-name"
+              type="text"
+              value={fullName}
+              onChange={(event) => setFullName(event.target.value)}
+              placeholder={copy.fullNamePlaceholder}
+              required
+              className="mt-2 w-full rounded-lg border border-(--border) bg-white px-3 py-2.5 text-sm text-(--ink-900) shadow-sm focus:border-(--brand-600) focus:outline-none focus:ring-2 focus:ring-(--brand-100)"
+            />
+          </div>
+
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <label
@@ -223,6 +221,7 @@ export default function InterviewSetupPage() {
                 name="interview-type"
                 value={interviewType}
                 onChange={(event) => setInterviewType(event.target.value)}
+                required
                 className="mt-2 w-full rounded-lg border border-(--border) bg-white px-3 py-2.5 text-sm text-(--ink-900) shadow-sm focus:border-(--brand-600) focus:outline-none focus:ring-2 focus:ring-(--brand-100)"
               >
                 {interviewTypes.map((type) => (
@@ -245,6 +244,7 @@ export default function InterviewSetupPage() {
                 name="question-time"
                 value={timePerQuestion}
                 onChange={(event) => setTimePerQuestion(event.target.value)}
+                required
                 className="mt-2 w-full rounded-lg border border-(--border) bg-white px-3 py-2.5 text-sm text-(--ink-900) shadow-sm focus:border-(--brand-600) focus:outline-none focus:ring-2 focus:ring-(--brand-100)"
               >
                 {reminderOptions.map((option) => (
@@ -271,48 +271,7 @@ export default function InterviewSetupPage() {
                 value={targetRole}
                 onChange={(event) => setTargetRole(event.target.value)}
                 placeholder={copy.targetRolePlaceholder}
-                className="mt-2 w-full rounded-lg border border-(--border) bg-white px-3 py-2.5 text-sm text-(--ink-900) shadow-sm focus:border-(--brand-600) focus:outline-none focus:ring-2 focus:ring-(--brand-100)"
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="industry"
-                className="text-sm font-semibold text-(--ink-700)"
-              >
-                {copy.targetIndustry}
-              </label>
-              <select
-                id="industry"
-                name="industry"
-                value={targetIndustry}
-                onChange={(event) => setTargetIndustry(event.target.value)}
-                className="mt-2 w-full rounded-lg border border-(--border) bg-white px-3 py-2.5 text-sm text-(--ink-900) shadow-sm focus:border-(--brand-600) focus:outline-none focus:ring-2 focus:ring-(--brand-100)"
-              >
-                {industries.map((industry) => (
-                  <option key={industry} value={industry}>
-                    {industry}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div>
-              <label
-                htmlFor="target-company"
-                className="text-sm font-semibold text-(--ink-700)"
-              >
-                {copy.targetCompany}
-              </label>
-              <input
-                id="target-company"
-                name="target-company"
-                type="text"
-                value={targetCompany}
-                onChange={(event) => setTargetCompany(event.target.value)}
-                placeholder={copy.targetCompanyPlaceholder}
+                required
                 className="mt-2 w-full rounded-lg border border-(--border) bg-white px-3 py-2.5 text-sm text-(--ink-900) shadow-sm focus:border-(--brand-600) focus:outline-none focus:ring-2 focus:ring-(--brand-100)"
               />
             </div>
@@ -329,6 +288,7 @@ export default function InterviewSetupPage() {
                 name="seniority"
                 value={seniority}
                 onChange={(event) => setSeniority(event.target.value)}
+                required
                 className="mt-2 w-full rounded-lg border border-(--border) bg-white px-3 py-2.5 text-sm text-(--ink-900) shadow-sm focus:border-(--brand-600) focus:outline-none focus:ring-2 focus:ring-(--brand-100)"
               >
                 {seniorityLevels.map((level) => (
@@ -356,82 +316,56 @@ export default function InterviewSetupPage() {
                 max="40"
                 value={experienceYears}
                 onChange={(event) => setExperienceYears(event.target.value)}
+                required
                 className="mt-2 w-full rounded-lg border border-(--border) bg-white px-3 py-2.5 text-sm text-(--ink-900) shadow-sm focus:border-(--brand-600) focus:outline-none focus:ring-2 focus:ring-(--brand-100)"
               />
             </div>
 
             <div>
               <label
-                htmlFor="location"
+                htmlFor="focus-area"
                 className="text-sm font-semibold text-(--ink-700)"
               >
-                {copy.location}
+                {copy.focusAreas}
               </label>
-              <input
-                id="location"
-                name="location"
-                type="text"
-                value={location}
-                onChange={(event) => setLocation(event.target.value)}
-                placeholder={copy.locationPlaceholder}
+              <select
+                id="focus-area"
+                name="focus-area"
+                value={focusArea}
+                onChange={(event) => setFocusArea(event.target.value)}
+                required
                 className="mt-2 w-full rounded-lg border border-(--border) bg-white px-3 py-2.5 text-sm text-(--ink-900) shadow-sm focus:border-(--brand-600) focus:outline-none focus:ring-2 focus:ring-(--brand-100)"
-              />
+              >
+                {focusAreas.map((area) => (
+                  <option key={area} value={area}>
+                    {area}
+                  </option>
+                ))}
+              </select>
             </div>
-          </div>
-
-          <div>
-            <p className="text-sm font-semibold text-(--ink-700)">
-              {copy.focusAreas}
-            </p>
-            <div className="mt-3 grid gap-3 sm:grid-cols-2">
-              {focusAreas.map((area) => (
-                <label
-                  key={area}
-                  className={`flex items-start gap-3 rounded-lg border px-4 py-3 text-sm ${
-                    selectedFocus.includes(area)
-                      ? "border-(--brand-200) bg-(--brand-50)/70"
-                      : "border-(--border) bg-white"
-                  }`}
-                >
-                  <input
-                    type="checkbox"
-                    checked={selectedFocus.includes(area)}
-                    onChange={() => toggleFocus(area)}
-                    className="mt-1 h-4 w-4 rounded border-(--border) text-(--brand-600) focus:ring-(--brand-100)"
-                  />
-                  <span className="text-(--ink-700)">{area}</span>
-                </label>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <label
-              htmlFor="notes"
-              className="text-sm font-semibold text-(--ink-700)"
-            >
-              {copy.notes}
-            </label>
-            <textarea
-              id="notes"
-              name="notes"
-              value={notes}
-              onChange={(event) => setNotes(event.target.value)}
-              placeholder={copy.notesPlaceholder}
-              className="mt-2 min-h-[120px] w-full rounded-lg border border-(--border) bg-white px-3 py-2.5 text-sm text-(--ink-900) shadow-sm focus:border-(--brand-600) focus:outline-none focus:ring-2 focus:ring-(--brand-100)"
-            />
           </div>
 
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <Link
-              href="/interview"
-              className="text-sm font-semibold text-(--ink-500) hover:text-(--ink-700)"
+            <span
+              className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold ${
+                isFormValid
+                  ? "bg-(--brand-50) text-(--brand-700)"
+                  : "bg-(--border) text-(--ink-600)"
+              }`}
+              aria-live="polite"
             >
-              {copy.skip}
-            </Link>
+              {isFormValid ? "✓" : "•"}{" "}
+              {isFormValid ? copy.readyMessage : copy.completeFields}
+            </span>
             <button
               type="submit"
-              className="rounded-lg bg-(--brand-600) px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-(--brand-700)"
+              disabled={!isFormValid}
+              aria-disabled={!isFormValid}
+              className={`rounded-lg px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition ${
+                isFormValid
+                  ? "bg-(--brand-600) hover:bg-(--brand-700)"
+                  : "bg-(--border) text-(--ink-500) cursor-not-allowed opacity-70"
+              }`}
             >
               {copy.continue}
             </button>

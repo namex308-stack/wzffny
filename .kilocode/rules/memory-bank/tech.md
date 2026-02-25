@@ -62,6 +62,11 @@ bun typecheck      # Run TypeScript type checking
 ```json
 {
   "@supabase/supabase-js": "^2.95.3", // Supabase client
+  "groq-sdk": "^0.37.0", // Groq LLM for analysis/question/report
+  "openai": "^6.25.0", // Whisper transcription
+  "pdfjs-dist": "^5.4.624", // PDF text extraction
+  "mammoth": "^1.11.0", // DOCX text extraction
+  "tesseract.js": "^7.0.0", // OCR for images/scanned CVs
   "lucide-react": "^0.562.0", // Icons
   "next": "^16.1.3", // Framework
   "react": "^19.2.3", // UI library

@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AuthGuard } from "@/components/auth/AuthGuard";
@@ -8,6 +8,10 @@ import { SignOutButton } from "@/components/auth/SignOutButton";
 import { LanguageToggle } from "@/components/layout/LanguageToggle";
 import { useLocale } from "@/components/providers/LocaleProvider";
 import { AUTH_DISABLED } from "@/lib/authConfig";
+import {
+  readInterviewFlowStage,
+  type InterviewFlowStage,
+} from "@/lib/interviewFlow";
 
 export default function ProtectedLayout({
   children,
@@ -17,6 +21,12 @@ export default function ProtectedLayout({
   const pathname = usePathname();
   const { locale } = useLocale();
   const isArabic = locale === "ar";
+  const [flowStage, setFlowStage] = useState<InterviewFlowStage>("setup_pending");
+
+  useEffect(() => {
+    setFlowStage(readInterviewFlowStage());
+  }, [pathname]);
+
   const copy = {
     workspace: isArabic ? "تنقل مساحة العمل" : "Workspace navigation",
     dashboard: isArabic ? "لوحة التحكم" : "Dashboard",
@@ -30,12 +40,21 @@ export default function ProtectedLayout({
   const isActive = (href: string) =>
     pathname === href || pathname?.startsWith(`${href}/`);
 
-  const navItemClass = (href: string) =>
-    `flex items-center justify-between rounded-lg border px-3 py-2 text-sm font-semibold transition-colors ${
+  const navItemClass = (href: string, disabled = false) => {
+    if (disabled) {
+      return "flex items-center justify-between rounded-lg border border-[color:var(--border)] bg-[color:var(--surface)] px-3 py-2 text-sm font-semibold text-[color:var(--ink-400)] cursor-not-allowed";
+    }
+    return `flex items-center justify-between rounded-lg border px-3 py-2 text-sm font-semibold transition-colors ${
       isActive(href)
         ? "border-[color:var(--brand-100)] bg-[color:var(--brand-50)] text-[color:var(--brand-700)]"
         : "border-[color:var(--border)] text-[color:var(--ink-700)] hover:border-[color:var(--brand-100)] hover:text-[color:var(--ink-900)]"
     }`;
+  };
+
+  const interviewEnabled = flowStage !== "setup_pending";
+  const analysisEnabled = flowStage === "interview_complete";
+  const analysisFallbackHref =
+    flowStage === "setup_pending" ? "/interview-setup" : "/interview";
 
   const pageTitle = () => {
     if (pathname?.startsWith("/interview-setup")) return copy.interviewSetup;
@@ -75,18 +94,32 @@ export default function ProtectedLayout({
                 {copy.interviewSetup}
               </Link>
               <Link
-                href="/interview"
-                className={navItemClass("/interview")}
+                href={interviewEnabled ? "/interview" : "/interview-setup"}
+                className={navItemClass("/interview", !interviewEnabled)}
                 aria-current={isActive("/interview") ? "page" : undefined}
+                aria-disabled={!interviewEnabled}
+                tabIndex={interviewEnabled ? 0 : -1}
               >
-                {copy.interview}
+                <span>{copy.interview}</span>
+                {!interviewEnabled ? (
+                  <span className="text-xs font-semibold text-(--ink-400)">
+                    {isArabic ? "مغلق" : "Locked"}
+                  </span>
+                ) : null}
               </Link>
               <Link
-                href="/interview-analysis"
-                className={navItemClass("/interview-analysis")}
+                href={analysisEnabled ? "/interview-analysis" : analysisFallbackHref}
+                className={navItemClass("/interview-analysis", !analysisEnabled)}
                 aria-current={isActive("/interview-analysis") ? "page" : undefined}
+                aria-disabled={!analysisEnabled}
+                tabIndex={analysisEnabled ? 0 : -1}
               >
-                {copy.interviewAnalysis}
+                <span>{copy.interviewAnalysis}</span>
+                {!analysisEnabled ? (
+                  <span className="text-xs font-semibold text-(--ink-400)">
+                    {isArabic ? "أنهِ المقابلة" : "Finish interview first"}
+                  </span>
+                ) : null}
               </Link>
               <Link
                 href="/resume"

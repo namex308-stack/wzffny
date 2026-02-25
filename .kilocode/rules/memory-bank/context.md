@@ -9,11 +9,26 @@ The landing page content now reflects wzzfny, an AI-powered interview training p
 Arabic localization and professional typography have been integrated across marketing, auth, billing, and protected app pages.
 
 ## Recently Completed
+- [x] Enforced sequential interview flow with a required full name on setup, cookie-tracked stages (`interview_flow`) locking nav, interview start buttons disabled until setup is valid, per-question answer requirement before advancing, and analysis gated/redirected until all questions are completed (Feb 25, 2026).
+- [x] Dashboard now treats Supabase “schema cache / table not found” errors for `interview_reports` as a migration gap (loads with empty reports) and notes that the table still needs to be created remotely (Feb 25, 2026).
+- [x] Dashboard usage fetch now handles both new (`month`, `interviews_used`, `resumes_used`, `cv_analyses`, `video_analyses`) and legacy `usage_counters` schemas, defaulting to zero without breaking the UI (Feb 25, 2026).
+- [x] Suppressed thrown usage errors by warning + falling back to legacy schema so dashboard no longer logs stack traces when the new columns are missing or the API returns empty error objects (Feb 25, 2026).
+- [x] Added bilingual onboarding card to dashboard outlining the 4-step flow (setup → interview → analysis → resume) with trust note (Feb 25, 2026).
+- [x] Interview setup button now stays disabled until all required fields (type, time, role, level, experience within 0–40, focus) are valid; adds disabled styling/aria for smooth UX without reloads (Feb 25, 2026).
+- [x] Cleared corrupted Next.js Turbopack cache (`.next/dev/cache/turbopack`) and stopped stray node dev processes after persisting errors (Feb 25, 2026); safe to rebuild fresh cache.
+- [x] Made interview setup form mandatory (required fields, no skip) so users must enter details before proceeding to the interview (Feb 25, 2026).
+- [x] Simplified interview setup for students/beginners (fewer fields: type, role, level, years, focus; single-select focus; removed company/industry/location/notes) to reduce friction before redirecting (Feb 25, 2026).
+- [x] Rewired dashboard to show real user data from Supabase (profile, plan, monthly usage counters, recent interview reports, live recommendations) instead of hardcoded placeholders (Feb 25, 2026).
+- [x] Dashboard now tolerates missing `interview_reports` table (shows empty state) and missing `plan` column (falls back to active subscription plan) to avoid runtime errors during migration gaps (Feb 25, 2026).
+- [x] Built Auto-Pilot pipeline for CV extraction (PDF/DOCX/OCR), ATS analysis via Groq, balanced question generation, Whisper video evaluation, and final report composer.
+- [x] Added API routes `/api/auto/analyze-cv`, `/api/auto/evaluate`, `/api/auto/report` backed by Supabase tables (cv_analyses, generated_questions, answer_evaluations, interview_reports) and usage counters.
+- [x] Created Auto-Pilot UI (CVUpload, AutoInterview, ReportView) plus protected `/auto` page for zero-touch flow.
+- [x] Provisioned Supabase storage bucket `interviews`, RPC `increment_usage`, and updated env/README for Groq, OpenAI Whisper, and Resend email.
 - [x] Added LinkedIn, X, and WhatsApp social links across the site footer content and icon map.
 - [x] Improved SEO with JSON-LD schema, updated metadata, and refreshed marketing copy for evidence-backed analysis.
 - [x] Boosted perceived performance via lazy-loaded chat/hero animation and content-visibility on below-the-fold sections.
 - [x] Expanded testimonials and added analysis transparency sections for interview and resume feedback credibility.
-- [x] Simplified pricing to Free/Paid in USD with monthly + yearly pricing, and added a 20% first-month discount banner across pricing, dashboard, settings, and chatbot.
+- [x] Updated pricing to Free + Starter/Pro tiers in EGP (monthly/yearly), refreshed pricing copy, and aligned Kashier/billing plan IDs across pricing, dashboard, settings, and chatbot.
 - [x] Updated site-wide branding from Interviewly to wzzfny across marketing, metadata, auth, and app UI.
 - [x] Corrected English marketing/blog copy, refreshed internal blog links to public pages, and tightened SEO metadata.
 - [x] Added Open Graph/Twitter image routes, sitemap, robots, and site URL helpers for improved SEO.
@@ -23,6 +38,13 @@ Arabic localization and professional typography have been integrated across mark
 - [x] Renamed `env.local` to `.env.local` so Next.js loads Supabase environment variables.
 - [x] Added Laravel backend subscription management updates (billing columns migration, Supabase/Paddle service config, webhook listener, and Supabase JWT route alias).
 - [x] Added Laravel backend API for Supabase JWT auth and Paddle billing (middleware, billing controller, API routes).
+
+- [x] Added migration `004_update_pricing_plans.sql` to align Supabase plan checks/limits with the new EGP tiers.
+- [x] Revamped About page copy (EN/AR) with mission, trust, privacy, and audience sections to strengthen credibility.
+- [x] Simplified “How it works” to a clear 3-step flow (choose role → answer AI questions → get instant feedback & score) with updated EN/AR copy.
+- [x] Expanded “How it works” to a five-step flow with emoji labels and clearer descriptions for role selection, AI interview, natural answers, analysis, and instant feedback (EN/AR).
+- [x] Added founder section (EN/AR) to About page highlighting Ali Hashem Ali, the wzzfny mission, and who the platform serves.
+- [x] Added AI analysis UX safeguards: loading + long-wait messaging, retry logic (2 retries), friendly failure state, disabled submit during processing, and error logging on the interview page.
 
 - [x] Refined interview analysis page copy (EN/AR) with clearer strengths/areas to improve, actionable tips, and percentage calculation notes
 - [x] Refined resume upload page copy (EN/AR) with ATS-focused messaging, clearer upload guidance, and improved section text
@@ -129,6 +151,7 @@ The template is customized. The focus now is on:
 2. Replacing placeholder imagery with real product screenshots
 3. Adjusting branding/colors if needed
 4. Optional: add navigation links to the new blog section
+5. Run end-to-end checks of the new Auto-Pilot flow (CV upload → questions → video eval → report + email/cron)
 
 ## Quick Customization Guide
 

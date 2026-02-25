@@ -17,8 +17,8 @@ export async function HowItWorks() {
         />
 
         {/* Steps */}
-        <div className="relative max-w-5xl mx-auto">
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
+        <div className="relative max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-6">
             {content.howItWorks.map((step, index) => (
               <div
                 key={step.step}

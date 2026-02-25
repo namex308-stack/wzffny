@@ -14,18 +14,51 @@ type Profile = {
   created_at: string | null;
 };
 
-type InterviewSummary = {
-  id: string;
-  role: string;
-  date: string;
-  score: string;
-  reportStatus: string;
-};
-
 type Recommendation = {
   title: string;
   description: string;
   tag: string;
+};
+
+type UsageSnapshot = {
+  practice_sessions: number;
+  video_answers: number;
+  resume_uploads: number;
+  interviews_completed: number;
+  cv_analyses?: number;
+  video_analyses?: number;
+  resumes_used?: number;
+  interviews_used?: number;
+  period_start?: string;
+  period_end?: string;
+  month?: string;
+};
+
+type ReportSummary = {
+  id: string;
+  summary: string | null;
+  recommendations: unknown;
+  evaluation_ids: string[] | null;
+  created_at: string;
+};
+
+const currentMonth = new Date().toISOString().slice(0, 7) + "-01";
+
+const isMissingTableError = (message: string | null | undefined, table: string) => {
+  if (!message) return false;
+  const text = message.toLowerCase();
+  const tableName = table.toLowerCase();
+
+  return (
+    (text.includes(tableName) || text.includes(`public.${tableName}`)) &&
+    (
+      text.includes("does not exist") ||
+      text.includes("doesn't exist") ||
+      text.includes("could not find") ||
+      text.includes("not found") ||
+      text.includes("schema cache")
+    )
+  );
 };
 
 export default function DashboardPage() {
@@ -33,13 +66,21 @@ export default function DashboardPage() {
   const content = getSiteContent(locale);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [usage, setUsage] = useState<UsageSnapshot | null>(null);
+  const [reports, setReports] = useState<ReportSummary[]>([]);
+  const [plan, setPlan] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const isArabic = locale === "ar";
   const copy = {
     loadError: isArabic ? "تعذر تحميل تفاصيل الحساب." : "Unable to load your account details.",
     memberSince: isArabic ? "عضو منذ" : "Member since",
-    score: isArabic ? "النتيجة" : "Score",
+    score: isArabic ? "الأسئلة المجابة" : "Questions answered",
+    noReports: isArabic ? "لا توجد مقابلات بعد. ابدأ أول جلسة." : "No interviews yet. Start your first session.",
+    periodLabel: isArabic ? "هذا الشهر" : "This month",
+    recommendationsEmpty: isArabic
+      ? "سيتم عرض توصيات مخصصة بعد أول تقرير مقابلة."
+      : "Personalized recommendations will appear after your first interview report.",
   };
 
   const formatShortDate = (isoDate: string) =>
@@ -49,83 +90,144 @@ export default function DashboardPage() {
       day: "2-digit",
     });
 
-  const progressSummary = useMemo(
-    () => [
+  const progressSummary = useMemo(() => {
+    const periodSource = usage?.period_start ?? usage?.month ?? null;
+    const period =
+      usage && periodSource
+        ? new Date(periodSource).toLocaleDateString(
+            locale === "ar" ? "ar-EG" : "en-US",
+            { month: "short", year: "numeric" },
+          )
+        : copy.periodLabel;
+
+    return [
       {
         label: isArabic ? "المقابلات المكتملة" : "Interviews completed",
-        value: "12",
-        caption: isArabic ? "3 جديدة هذا الشهر" : "3 new this month",
+        value: usage ? String(usage.interviews_completed) : "0",
+        caption: period,
       },
       {
-        label: isArabic ? "تقييم الأداء" : "Performance evaluation",
-        value: "82/100",
-        caption: isArabic ? "تحسن مستمر" : "Consistent improvement",
+        label: isArabic ? "جلسات التدريب" : "Practice sessions",
+        value: usage ? String(usage.practice_sessions) : "0",
+        caption: period,
       },
       {
-        label: isArabic ? "جودة السيرة الذاتية" : "Resume quality",
-        value: "4.2/5",
-        caption: isArabic ? "سرد قوي" : "Strong storytelling",
+        label: isArabic ? "إجابات الفيديو" : "Video answers saved",
+        value: usage ? String(usage.video_answers) : "0",
+        caption: period,
       },
-    ],
-    [isArabic],
-  );
+    ];
+  }, [copy.periodLabel, isArabic, locale, usage]);
 
-  const previousInterviews: InterviewSummary[] = [
-    {
-      id: "INT-204",
-      role: isArabic ? "مصمم منتجات" : "Product Designer",
-      date: formatShortDate("2026-01-28"),
-      score: "86",
-      reportStatus: isArabic ? "التقرير جاهز" : "Report ready",
-    },
-    {
-      id: "INT-203",
-      role: isArabic ? "مهندس واجهات أمامية" : "Frontend Engineer",
-      date: formatShortDate("2026-01-22"),
-      score: "79",
-      reportStatus: isArabic ? "التقرير جاهز" : "Report ready",
-    },
-    {
-      id: "INT-199",
-      role: isArabic ? "نجاح العملاء" : "Customer Success",
-      date: formatShortDate("2026-01-12"),
-      score: "83",
-      reportStatus: isArabic ? "ملخص فقط" : "Highlights only",
-    },
-  ];
+  const recommendations: Recommendation[] = useMemo(() => {
+    const source = reports.find((r) => Array.isArray(r.recommendations) && r.recommendations.length > 0);
+    if (!source || !Array.isArray(source.recommendations)) return [];
 
-  const recommendations: Recommendation[] = useMemo(
-    () => [
-      {
-        title: isArabic
-          ? "إجابة: صف موقفًا حليت فيه خلافًا"
-          : "Answer: Describe a time you resolved a conflict",
-        description: isArabic
-          ? "استخدم إطار STAR وركّز على النتيجة خلال 60 ثانية."
-          : "Use STAR framing and emphasize the outcome in 60 seconds.",
-        tag: isArabic ? "سلوكي" : "Behavioral",
-      },
-      {
-        title: isArabic
-          ? "تمرين: شدّد ملخص السيرة الذاتية"
-          : "Exercise: Tighten your resume summary",
-        description: isArabic
-          ? "أعد كتابة أول 3 أسطر لإبراز أثر قابل للقياس."
-          : "Rewrite the top 3 lines to highlight measurable impact.",
-        tag: isArabic ? "السيرة الذاتية" : "Resume",
-      },
-      {
-        title: isArabic
-          ? "سؤال: حدّثني عن مشروع حديث تفتخر به"
-          : "Question: Walk me through a recent project",
-        description: isArabic
-          ? "ركّز على المشكلة والمنهج والنتائج والدروس المستفادة."
-          : "Focus on problem, approach, results, and lessons learned.",
-        tag: isArabic ? "السرد القصصي" : "Storytelling",
-      },
-    ],
-    [isArabic],
-  );
+    return source.recommendations
+      .slice(0, 3)
+      .map((item: any, index: number) => {
+        if (typeof item === "string") {
+          return {
+            title: isArabic ? `توصية ${index + 1}` : `Recommendation ${index + 1}`,
+            description: item,
+            tag: isArabic ? "تقرير" : "Report",
+          };
+        }
+
+        return {
+          title: item.title ?? (isArabic ? `توصية ${index + 1}` : `Recommendation ${index + 1}`),
+          description:
+            item.description ??
+            item.detail ??
+            item.text ??
+            (isArabic ? "تفاصيل غير متوفرة" : "No details provided"),
+          tag: item.tag ?? (isArabic ? "تقرير" : "Report"),
+        };
+      });
+  }, [isArabic, reports]);
+
+  const fetchUsage = async (userId: string): Promise<UsageSnapshot> => {
+    const empty: UsageSnapshot = {
+      practice_sessions: 0,
+      video_answers: 0,
+      resume_uploads: 0,
+      interviews_completed: 0,
+      cv_analyses: 0,
+      video_analyses: 0,
+      resumes_used: 0,
+      interviews_used: 0,
+      period_start: currentMonth,
+      period_end: currentMonth,
+      month: currentMonth,
+    };
+
+    const fetchLegacy = async (): Promise<UsageSnapshot> => {
+      const { data, error } = await supabase
+        .from("usage_counters")
+        .select(
+          "practice_sessions, video_answers, resume_uploads, interviews_completed, period_start, period_end",
+        )
+        .eq("user_id", userId)
+        .order("period_start", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      if (error) {
+        if (isMissingTableError(error.message, "usage_counters")) {
+          return empty;
+        }
+        console.warn("Usage error (legacy schema):", error);
+        return empty;
+      }
+
+      return data
+        ? {
+            ...empty,
+            ...data,
+          }
+        : empty;
+    };
+
+    const { data, error } = await supabase
+      .from("usage_counters")
+      .select(
+        `
+          interviews_used,
+          resumes_used,
+          practice_sessions,
+          cv_analyses,
+          video_analyses,
+          video_answers,
+          resume_uploads,
+          interviews_completed,
+          period_start,
+          period_end,
+          month
+        `,
+      )
+      .eq("user_id", userId)
+      .order("period_start", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (error) {
+      if (isMissingTableError(error.message, "usage_counters")) {
+        return empty;
+      }
+      console.warn("Usage error (new schema):", error);
+      return fetchLegacy();
+    }
+
+    if (data) {
+      return {
+        ...empty,
+        ...data,
+      };
+    }
+
+    // No row in new schema; fall back to legacy just in case.
+    return fetchLegacy();
+  };
 
   useEffect(() => {
     let active = true;
@@ -176,6 +278,75 @@ export default function DashboardPage() {
     };
   }, []);
 
+  useEffect(() => {
+    let active = true;
+
+    const loadData = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user || !active) return;
+
+      const [usageData, reportsRes, planRes] = await Promise.all([
+        fetchUsage(user.id),
+        supabase
+          .from("interview_reports")
+          .select("id, summary, recommendations, evaluation_ids, created_at")
+          .eq("user_id", user.id)
+          .order("created_at", { ascending: false })
+          .limit(5),
+        supabase.from("user_plans").select("*").eq("user_id", user.id).maybeSingle(),
+      ]);
+
+      if (!active) return;
+
+      if (reportsRes.error) {
+        if (isMissingTableError(reportsRes.error.message, "interview_reports")) {
+          // Table not yet migrated; keep reports empty but allow dashboard to load.
+          setReports([]);
+        } else {
+          setErrorMessage(reportsRes.error.message);
+        }
+      } else if (reportsRes.data) {
+        setReports(reportsRes.data as ReportSummary[]);
+      }
+
+      if (planRes.error) {
+        const missingPlanColumn =
+          planRes.error.message?.toLowerCase().includes("column") &&
+          planRes.error.message?.toLowerCase().includes("plan");
+        if (!missingPlanColumn) {
+          setErrorMessage(planRes.error.message);
+        }
+
+        // Fallback: if older schema lacks plan column, derive plan from latest active subscription.
+        const fallback = await supabase
+          .from("subscriptions")
+          .select("plan")
+          .eq("user_id", user.id)
+          .eq("status", "active")
+          .order("current_period_start", { ascending: false })
+          .limit(1)
+          .maybeSingle();
+        if (fallback.data?.plan) setPlan(fallback.data.plan);
+      }
+
+      if (planRes.data && "plan" in planRes.data) {
+        // Some Supabase typings return data as a Record<string, unknown>
+        setPlan((planRes.data as { plan?: string }).plan ?? null);
+      }
+
+      setUsage(usageData);
+    };
+
+    loadData();
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
   const createdAt = useMemo(() => {
     if (!profile?.created_at) {
       return "—";
@@ -212,10 +383,58 @@ export default function DashboardPage() {
     : isArabic
       ? "زائر"
       : "Guest";
+  const planLabel = (() => {
+    const map: Record<string, { en: string; ar: string }> = {
+      free: { en: "Free", ar: "مجاني" },
+      starter_monthly: { en: "Starter (Monthly)", ar: "مبتدئ (شهري)" },
+      starter_yearly: { en: "Starter (Yearly)", ar: "مبتدئ (سنوي)" },
+      pro_monthly: { en: "Pro (Monthly)", ar: "احترافي (شهري)" },
+      pro_yearly: { en: "Pro (Yearly)", ar: "احترافي (سنوي)" },
+    };
+    if (plan && map[plan]) return isArabic ? map[plan].ar : map[plan].en;
+    if (plan) return plan;
+    return isArabic ? "خطة غير محددة" : "Plan not set";
+  })();
   const emailLabel = userEmail ?? (isArabic ? "وضع الوصول العام" : "Public access mode");
+  const introTitle = isArabic
+    ? "مرحبًا بك في wzzfny — منصتك للتدريب على المقابلات بالذكاء الاصطناعي."
+    : "Welcome to Wzffny — your AI-powered interview training platform.";
+  const introNote = isArabic
+    ? "أكمل الخطوات بالترتيب للحصول على نتائج دقيقة وموثوقة."
+    : "Complete the steps in order for the most accurate and trustworthy results.";
+  const onboardingSteps = isArabic
+    ? [
+        { label: "1️⃣ إعداد المقابلة", body: "أدخل بياناتك الشخصية واختر الدور الوظيفي ليتم تخصيص الأسئلة وفقًا لخلفيتك." },
+        { label: "2️⃣ المقابلة", body: "أجب بصدق ووضوح على أسئلة المقابلة الموجهة بالذكاء الاصطناعي. سيتم تحليل إجاباتك من حيث المحتوى والبناء والملاءمة." },
+        { label: "3️⃣ تحليل المقابلة", body: "استلم نقاط القوة والجوانب التي تحتاج لتحسين، مع إجابات نموذجية قصيرة لكل سؤال." },
+        { label: "4️⃣ السيرة الذاتية", body: "حمّل سيرتك الذاتية لتحصل على تحليل كامل للمهارات والفجوات وتوصيات للتحسين." },
+      ]
+    : [
+        { label: "1️⃣ Interview Setup", body: "Enter your personal details and select your job role so the AI can tailor questions to your background." },
+        { label: "2️⃣ Interview", body: "Complete the AI-guided interview. Answer honestly and clearly; responses are analyzed for structure, content, and relevance." },
+        { label: "3️⃣ Interview Analysis", body: "Get strengths, improvements, and a concise model answer for each question." },
+        { label: "4️⃣ Resume", body: "Upload your CV/resume for a full analysis of skills, gaps, and improvement recommendations." },
+      ];
 
   return (
     <div className="mx-auto mt-8 max-w-5xl space-y-8">
+      <section className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+        <div className="flex flex-col gap-3">
+          <div>
+            <p className="text-sm font-semibold text-slate-900">{introTitle}</p>
+            <p className="text-sm text-slate-600">{introNote}</p>
+          </div>
+          <div className="space-y-3">
+            {onboardingSteps.map((step) => (
+              <div key={step.label} className="rounded-md border border-slate-100 bg-slate-50 px-4 py-3">
+                <p className="text-sm font-semibold text-slate-900">{step.label}</p>
+                <p className="text-sm text-slate-600">{step.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
@@ -229,6 +448,8 @@ export default function DashboardPage() {
               <span>{emailLabel}</span>
               <span className="hidden sm:inline">•</span>
               <span>{accountLabel}</span>
+              <span className="hidden sm:inline">•</span>
+              <span>{planLabel}</span>
               <span className="hidden sm:inline">•</span>
               <span>
                 {copy.memberSince} {createdAt}
@@ -274,52 +495,60 @@ export default function DashboardPage() {
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
               <h2 className="text-lg font-semibold text-slate-900">
-                {isArabic ? "المقابلات السابقة" : "Previous interviews"}
-              </h2>
-              <p className="text-sm text-slate-500">
-                {isArabic
-                  ? "راجع الجلسات السابقة والتقارير المرتبطة."
-                  : "Review past sessions and associated reports."}
-              </p>
-            </div>
-            <button
-              type="button"
-              className="rounded-lg border border-slate-200 px-3 py-1.5 text-sm font-semibold text-slate-700 hover:border-slate-300"
-            >
-              {isArabic ? "عرض الكل" : "View all"}
-            </button>
+              {isArabic ? "المقابلات السابقة" : "Previous interviews"}
+            </h2>
+            <p className="text-sm text-slate-500">
+              {isArabic
+                ? "راجع الجلسات السابقة والتقارير المرتبطة."
+                : "Review past sessions and associated reports."}
+            </p>
           </div>
-          <div className="mt-4 space-y-3">
-            {previousInterviews.map((interview) => (
+          <button
+            type="button"
+            className="rounded-lg border border-slate-200 px-3 py-1.5 text-sm font-semibold text-slate-700 hover:border-slate-300"
+          >
+            {isArabic ? "عرض الكل" : "View all"}
+          </button>
+        </div>
+        <div className="mt-4 space-y-3">
+          {reports.length === 0 ? (
+            <p className="text-sm text-slate-500">{copy.noReports}</p>
+          ) : (
+            reports.map((report) => (
               <div
-                key={interview.id}
+                key={report.id}
                 className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-slate-100 bg-slate-50 px-4 py-3"
               >
                 <div>
                   <p className="text-sm font-semibold text-slate-900">
-                    {interview.role}
+                    {isArabic ? "تقرير المقابلة" : "Interview report"}
                   </p>
                   <p className="text-xs text-slate-500">
-                    {interview.id} • {interview.date}
+                    {report.id.slice(0, 8)} • {formatShortDate(report.created_at)}
                   </p>
                 </div>
                 <div className="text-right">
                   <p className="text-sm font-semibold text-slate-900">
-                    {copy.score} {interview.score}
+                    {copy.score} {report.evaluation_ids?.length ?? 0}
                   </p>
                   <p className="text-xs text-slate-500">
-                    {interview.reportStatus}
+                    {report.summary
+                      ? report.summary.slice(0, 72) + (report.summary.length > 72 ? "…" : "")
+                      : isArabic
+                        ? "ملخص مختصر متاح"
+                        : "Summary available"}
                   </p>
                 </div>
-                <button
-                  type="button"
+                <Link
+                  href={`/interview-analysis?id=${report.id}`}
                   className="rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:border-slate-300"
                 >
                   {isArabic ? "عرض التقرير" : "View report"}
-                </button>
+                </Link>
               </div>
-            ))}
-          </div>
+            ))
+          )}
+        </div>
         </div>
 
         <div className="space-y-6">
@@ -356,19 +585,23 @@ export default function DashboardPage() {
                 : "Focus on the highest-impact questions and exercises."}
             </p>
             <div className="mt-4 space-y-4">
-              {recommendations.map((rec) => (
-                <div key={rec.title} className="rounded-lg border border-slate-100 bg-slate-50 p-4">
-                  <div className="flex items-center justify-between gap-2">
-                    <p className="text-sm font-semibold text-slate-900">
-                      {rec.title}
-                    </p>
-                    <span className="rounded-full bg-slate-200 px-2 py-0.5 text-xs font-semibold text-slate-600">
-                      {rec.tag}
-                    </span>
+              {recommendations.length === 0 ? (
+                <p className="text-sm text-slate-500">{copy.recommendationsEmpty}</p>
+              ) : (
+                recommendations.map((rec) => (
+                  <div key={rec.title} className="rounded-lg border border-slate-100 bg-slate-50 p-4">
+                    <div className="flex items-center justify-between gap-2">
+                      <p className="text-sm font-semibold text-slate-900">
+                        {rec.title}
+                      </p>
+                      <span className="rounded-full bg-slate-200 px-2 py-0.5 text-xs font-semibold text-slate-600">
+                        {rec.tag}
+                      </span>
+                    </div>
+                    <p className="mt-2 text-sm text-slate-600">{rec.description}</p>
                   </div>
-                  <p className="mt-2 text-sm text-slate-600">{rec.description}</p>
-                </div>
-              ))}
+                ))
+              )}
             </div>
           </div>
         </div>

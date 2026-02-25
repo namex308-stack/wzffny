@@ -12,17 +12,19 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { getSiteContent } from "@/lib/siteContent";
 import { getServerLocale } from "@/lib/locale.server";
 import { getSiteUrl } from "@/lib/seo";
+import { BILLING_CURRENCY } from "@/lib/billing";
 
 export default async function Home() {
   const locale = await getServerLocale();
   const content = getSiteContent(locale);
   const siteUrl = getSiteUrl();
   const pricing = content.pricing;
+  const toNumericPrice = (value?: string) => (value ?? "").replace(/[^0-9.]/g, "");
   const offers = pricing.flatMap((plan) => {
     const baseOffer = {
       "@type": "Offer",
-      price: plan.price.replace("$", ""),
-      priceCurrency: "USD",
+      price: toNumericPrice(plan.price),
+      priceCurrency: BILLING_CURRENCY,
       url: `${siteUrl}/pricing`,
       category: plan.id === "free" ? "free" : "subscription",
       description: plan.description,
@@ -32,7 +34,7 @@ export default async function Home() {
         baseOffer,
         {
           ...baseOffer,
-          price: plan.secondaryPrice.replace("$", ""),
+          price: toNumericPrice(plan.secondaryPrice),
           description: `${plan.description} (${plan.secondaryPeriod})`,
         },
       ];

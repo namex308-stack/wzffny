@@ -10,14 +10,15 @@ import { defaultOpenGraphImage, defaultTwitterImage } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Pricing | wzzfny",
-  description: "Free and paid plans for interview practice, AI feedback, and resume review.",
+  description:
+    "Free, Starter, and Pro plans in EGP with monthly and yearly options for interview practice, AI feedback, and resume review.",
   alternates: {
     canonical: "/pricing",
   },
   openGraph: {
     title: "Pricing | wzzfny",
     description:
-      "Free and paid plans for interview practice, AI feedback, and resume review.",
+      "Free, Starter, and Pro plans in EGP with monthly and yearly options for interview practice, AI feedback, and resume review.",
     type: "website",
     url: "/pricing",
     images: [
@@ -33,7 +34,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Pricing | wzzfny",
     description:
-      "Free and paid plans for interview practice, AI feedback, and resume review.",
+      "Free, Starter, and Pro plans in EGP with monthly and yearly options for interview practice, AI feedback, and resume review.",
     images: [defaultTwitterImage],
   },
 };

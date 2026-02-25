@@ -1,5 +1,11 @@
 import Link from "next/link";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import { getServerLocale } from "@/lib/locale.server";
+import {
+  INTERVIEW_FLOW_COOKIE,
+  parseInterviewFlowStage,
+} from "@/lib/interviewFlow";
 
 const strengthsEn = [
   "Structured answers that follow STAR with clear action and result.",
@@ -119,7 +125,20 @@ const videoReviewsAr = [
   },
 ];
 
-export default async function InterviewAnalysisPage() {
+export default async function InterviewAnalysisPage({
+  searchParams,
+}: {
+  searchParams?: Record<string, string | string[] | undefined>;
+}) {
+  const flowStage = parseInterviewFlowStage(
+    cookies().get(INTERVIEW_FLOW_COOKIE)?.value,
+  );
+  if (flowStage !== "interview_complete") {
+    const target =
+      flowStage === "setup_pending" ? "/interview-setup" : "/interview";
+    redirect(target);
+  }
+
   const locale = await getServerLocale();
   const isArabic = locale === "ar";
   const copy = {
@@ -215,6 +234,21 @@ export default async function InterviewAnalysisPage() {
     score: item.score,
   }));
 
+  const params = new URLSearchParams();
+  if (searchParams) {
+    Object.entries(searchParams).forEach(([key, value]) => {
+      if (Array.isArray(value)) {
+        value.forEach((entry) => params.append(key, entry));
+      } else if (value) {
+        params.set(key, value);
+      }
+    });
+  }
+
+  const queryString = params.toString();
+  const interviewHref = `/interview${queryString ? `?${queryString}` : ""}`;
+  const setupHref = `/interview-setup${queryString ? `?${queryString}` : ""}`;
+
   return (
     <div className="mx-auto max-w-6xl space-y-8">
       <section className="rounded-2xl border border-(--border) bg-white/95 p-8 shadow-sm">
@@ -232,13 +266,13 @@ export default async function InterviewAnalysisPage() {
           </div>
           <div className="flex flex-wrap gap-3">
             <Link
-              href="/interview"
+              href={interviewHref}
               className="rounded-lg border border-(--border) px-4 py-2 text-sm font-semibold text-(--ink-700) shadow-sm transition hover:border-(--brand-200)"
             >
               {copy.back}
             </Link>
             <Link
-              href="/interview-setup"
+              href={setupHref}
               className="rounded-lg bg-(--brand-600) px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-(--brand-700)"
             >
               {copy.newInterview}

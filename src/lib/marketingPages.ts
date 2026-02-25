@@ -295,47 +295,72 @@ const marketingPagesEn: Record<(typeof marketingSlugs)[number], MarketingPage> =
     eyebrow: "Company",
     title: "About wzzfny",
     subtitle:
-      "We’re building a practical, data-informed way to practice interviews and build confidence.",
+      "Evidence-backed interview coaching built for candidates, bootcamps, and career teams.",
     highlights: [
       {
-        title: "Research-backed",
+        title: "Mission-led",
         description:
-          "Our frameworks are grounded in proven interview techniques.",
+          "We exist to make interview prep honest, supportive, and measurable for every candidate.",
       },
       {
-        title: "Human-centered",
+        title: "Measurable progress",
         description:
-          "We design for clarity, confidence, and less stress for candidates.",
+          "Rubric scoring, timestamps, and trend reports help learners see improvement over time.",
       },
       {
-        title: "Global community",
+        title: "Privacy-first",
         description:
-          "Built for candidates across roles, industries, and experience levels.",
+          "Data minimization, encryption, and user-controlled deletion keep practice sessions safe.",
       },
     ],
     sections: [
       {
-        title: "What we believe",
+        title: "Our mission",
         body:
-          "Great interviews are learnable skills. Practice, feedback, and repetition are the fastest ways to improve.",
+          "We help people tell their stories with clarity and confidence. wzzfny combines realistic practice, AI feedback, and coaching workflows so candidates can improve faster and feel ready on interview day.",
         bullets: [
-          "Practice should feel realistic and supportive",
-          "Feedback should be specific and actionable",
-          "Progress should be visible and motivating",
+          "Practice that mirrors real interviews, not generic quizzes",
+          "Feedback that cites evidence and suggests concrete fixes",
+          "Progress that is tracked across sessions, roles, and goals",
         ],
       },
       {
-        title: "How we build",
+        title: "Who we serve",
         body:
-          "We collaborate with hiring managers, coaches, and candidates to build the most helpful interview experience.",
+          "wzzfny is used by individual job seekers, bootcamps, and university career teams to standardize prep and coaching.",
+        bullets: [
+          "Candidates: structured practice, resume refinement, and confidence building",
+          "Bootcamps: shared rubrics, cohort analytics, and reusable question banks",
+          "Universities & career centers: scalable mock interviews with consistent scoring",
+        ],
+      },
+      {
+        title: "How we earn trust",
+        body:
+          "Interview practice is sensitive. We design for safety from day one.",
+        bullets: [
+          "Encryption in transit and at rest for recordings, transcripts, and resumes",
+          "Least-privilege access and scoped retention for uploaded files",
+          "User controls to delete sessions, recordings, and personal data anytime",
+        ],
+      },
+      {
+        title: "Who we are",
+        body:
+          "We’re a distributed team of engineers, career coaches, and hiring managers who have led interviews across product, data, design, and engineering roles. We partner with advisors from career services, bootcamps, and fast-growing startups to keep the product practical and unbiased.",
+      },
+      {
+        title: "About the founder",
+        body:
+          "Ali Hashem Ali founded wzzfny to give candidates realistic interview practice and clear feedback. After seeing strong candidates stumble from lack of rehearsal, he built an AI-powered platform that simulates real interviews and delivers instant, actionable insights. wzzfny serves students, fresh graduates, and professionals who want to understand what recruiters expect and improve their chances of getting hired. Ali focuses on combining technology, usability, and practical career preparation so anyone can train with confidence—anywhere.",
       },
     ],
     cta: {
-      title: "Join the team",
+      title: "Talk with us",
       subtitle:
-        "We’re hiring people who care about the candidate experience.",
-      primary: { label: "View careers", href: "/careers" },
-      secondary: { label: "Contact us", href: "/contact" },
+        "Whether you’re preparing on your own or supporting a cohort, we’d love to help.",
+      primary: { label: "Contact us", href: "/contact" },
+      secondary: { label: "View pricing", href: "/pricing" },
     },
   },
   careers: {
@@ -1128,47 +1153,72 @@ const marketingPagesAr: Record<(typeof marketingSlugs)[number], MarketingPage> =
     eyebrow: "الشركة",
     title: "عن wzzfny",
     subtitle:
-      "نبني طريقة عملية قائمة على البيانات للتدريب على المقابلات وبناء الثقة.",
+      "تدريب مقابلات مدعوم بالأدلة للمرشحين ومعسكرات التدريب ومراكز التوظيف.",
     highlights: [
       {
-        title: "مبني على الأبحاث",
+        title: "مهمة واضحة",
         description:
-          "منهجياتنا تستند إلى أفضل ممارسات المقابلات.",
+          "هدفنا جعل التحضير للمقابلات عمليًا وداعمًا وقابلًا للقياس لكل مرشح.",
       },
       {
-        title: "تصميم إنساني",
+        title: "تقدم قابل للقياس",
         description:
-          "نصمم للتوضيح وتقليل التوتر وزيادة الثقة.",
+          "درجات معيارية، طوابع زمنية، وتقارير اتجاهات تُظهر التحسن مع الوقت.",
       },
       {
-        title: "مجتمع عالمي",
+        title: "خصوصية أولًا",
         description:
-          "مناسب لمختلف الأدوار والصناعات والمستويات.",
+          "تشفير، تقليل للبيانات، وإمكانية حذف الجلسات والبيانات في أي وقت.",
       },
     ],
     sections: [
       {
-        title: "ما نؤمن به",
+        title: "مهمتنا",
         body:
-          "المقابلات مهارة يمكن تعلمها. التدريب والملاحظات والتكرار أسرع طريق للتحسن.",
+          "نساعد الأشخاص على سرد قصصهم بثقة ووضوح. يجمع wzzfny بين تدريب واقعي، وملاحظات مدعومة بالأدلة، وتدفقات عمل للمدربين حتى يصل المرشحون ليوم المقابلة وهم مستعدون.",
         bullets: [
-          "التدريب يجب أن يكون واقعيًا وداعمًا",
-          "الملاحظات يجب أن تكون محددة وقابلة للتنفيذ",
-          "التقدم يجب أن يكون واضحًا ومحفزًا",
+          "تدريب يحاكي المقابلات الفعلية وليس اختبارات عامة",
+          "ملاحظات تشير إلى الأدلة وتقترح إصلاحات محددة",
+          "تقدم متتبع عبر الجلسات والأدوار والأهداف",
         ],
       },
       {
-        title: "كيف نبني",
+        title: "من نخدم",
         body:
-          "نتعاون مع مديري التوظيف والمدربين والمرشحين لبناء أفضل تجربة تدريب.",
+          "يُستخدم wzzfny من قبل الباحثين عن عمل والأكاديميات ومراكز التوظيف لتوحيد التدريب والتقييم.",
+        bullets: [
+          "مرشحون: تدريب منظم، تحسين السيرة، وبناء الثقة",
+          "معسكرات تدريب: معايير موحدة، تحليلات دفعات، وبنوك أسئلة قابلة لإعادة الاستخدام",
+          "جامعات ومراكز توظيف: مقابلات وهمية قابلة للتوسع مع درجات متسقة",
+        ],
+      },
+      {
+        title: "كيف نحافظ على الثقة",
+        body:
+          "تدريب المقابلات بيانات حساسة. نضع الأمان في المقدمة منذ البداية.",
+        bullets: [
+          "تشفير أثناء النقل والتخزين للتسجيلات والنصوص والسير الذاتية",
+          "صلاحيات محدودة وفترات احتفاظ مضبوطة للملفات المرفوعة",
+          "تحكم للمستخدم لحذف الجلسات والتسجيلات والبيانات الشخصية في أي وقت",
+        ],
+      },
+      {
+        title: "من نحن",
+        body:
+          "نحن فريق موزع من مهندسين ومدربي وظائف ومديري توظيف قادوا مقابلات في مجالات المنتج والبيانات والتصميم والهندسة. نتعاون مع مستشارين من مراكز التوظيف ومعسكرات التدريب وشركات ناشئة سريعة النمو للحفاظ على منتج عملي ومحايد.",
+      },
+      {
+        title: "عن المؤسس",
+        body:
+          "أسس علي هاشم علي منصة wzzfny ليوفّر للمرشحين تدريبًا واقعيًا على المقابلات مع ملاحظات واضحة. بعد أن لاحظ أن كثيرًا من المرشحين يتعثرون بسبب نقص الممارسة والتغذية الراجعة، بنى منصة مدعومة بالذكاء الاصطناعي تحاكي المقابلات الفعلية وتقدم ملاحظات فورية قابلة للتنفيذ. تخدم wzzfny الطلاب والخريجين الجدد والمحترفين الذين يريدون فهم ما يتوقعه أصحاب العمل وزيادة فرصهم في التوظيف. يركز علي على الجمع بين التقنية وسهولة الاستخدام والاستعداد المهني العملي ليجعل تدريب المقابلات متاحًا لأي شخص وفي أي مكان.",
       },
     ],
     cta: {
-      title: "انضم إلى الفريق",
+      title: "تواصل معنا",
       subtitle:
-        "نبحث عن أشخاص يهتمون بتجربة المرشح.",
-      primary: { label: "عرض الوظائف", href: "/careers" },
-      secondary: { label: "تواصل معنا", href: "/contact" },
+        "سواء كنت تتدرب بمفردك أو تدعم دفعة طلابية، يسعدنا مساعدتك.",
+      primary: { label: "تواصل معنا", href: "/contact" },
+      secondary: { label: "عرض الأسعار", href: "/pricing" },
     },
   },
   careers: {

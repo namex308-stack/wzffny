@@ -1,4 +1,5 @@
 import type { Locale } from "@/lib/i18n";
+import type { PlanId } from "@/lib/billing";
 
 export type SiteContent = {
   siteConfig: {
@@ -30,7 +31,7 @@ export type SiteContent = {
     avatar: string;
   }[];
   pricing: {
-    id: "free" | "paid";
+    id: PlanId;
     name: string;
     price: string;
     period: string;
@@ -156,27 +157,33 @@ const siteContentEn: SiteContent = {
   howItWorks: [
     {
       step: 1,
-      title: "Set your goal",
+      title: "1️⃣ Choose your job role",
       description:
-        "Choose your role, experience level, and interview type for a personalized plan.",
+        "Pick the role and level you’re targeting so we tailor questions and scoring.",
     },
     {
       step: 2,
-      title: "Record live responses",
+      title: "2️⃣ Start your AI interview",
       description:
-        "Pick questions and answer on camera like a real interview.",
+        "Our AI interviewer asks realistic questions based on your chosen role.",
     },
     {
       step: 3,
-      title: "Get AI feedback",
+      title: "3️⃣ Answer naturally",
       description:
-        "Receive a detailed report on clarity, structure, tone, and body language.",
+        "Respond just like a real interview—take your time and explain your thinking.",
     },
     {
       step: 4,
-      title: "Improve and track progress",
+      title: "4️⃣ AI analyzes your responses",
       description:
-        "Follow your training plan, repeat practice, and watch your scores rise.",
+        "Your answers are evaluated for clarity, structure, relevance, and key skills.",
+    },
+    {
+      step: 5,
+      title: "5️⃣ Get instant feedback & score",
+      description:
+        "Receive your score, strengths, improvement tips, and guidance for next time.",
     },
   ],
   testimonials: [
@@ -233,42 +240,77 @@ const siteContentEn: SiteContent = {
     {
       id: "free",
       name: "Free",
-      price: "$0",
+      price: "EGP 0",
       period: "month",
-      description: "For light practice and a quick preview of wzzfny.",
+      description: "Best for beginners: 3 short sessions each month with starter tips.",
       features: [
-        "Basic dashboard (interview count)",
-        "1 behavioral interview / month (no video)",
-        "Resume upload: once (basic AI feedback)",
-        "Limited practice questions",
-        "Save only the most recent report",
+        "3 short sessions each month",
+        "Basic CV scan for format + keywords",
+        "Text or audio answers",
+        "Keep the latest report",
       ],
-      cta: "Start Free",
+      cta: "Start free",
       highlighted: false,
     },
     {
-      id: "paid",
-      name: "Paid",
-      price: "$10",
+      id: "starter_monthly",
+      name: "Starter Monthly",
+      price: "EGP 299",
       period: "month",
-      secondaryPrice: "$80",
-      secondaryPeriod: "year",
-      description: "Full access for serious job seekers.",
+      description: "Best for beginners who want video feedback.",
       features: [
-        "Full dashboard + progress tracking",
-        "Unlimited interviews (behavioral, technical, or mixed)",
-        "Video interview recordings",
-        "AI analysis (answers, voice, and body language)",
-        "Detailed reports + charts",
-        "Unlimited resume improvements",
-        "Full practice questions library",
-        "Save all interviews and reports",
-        "Advanced video feedback (timestamped comments)",
-        "Personalized training and daily exercises",
-        "Priority access and support",
+        "20 practice sessions each month",
+        "Video or audio with AI tips",
+        "Simple scorecard with 3 fixes",
+        "Resume keyword suggestions",
       ],
-      cta: "Start Paid",
+      cta: "Sign Up Now",
+      highlighted: false,
+    },
+    {
+      id: "pro_monthly",
+      name: "Pro Monthly",
+      price: "EGP 599",
+      period: "month",
+      description: "Unlimited practice with deeper analysis and priority replies.",
+      features: [
+        "Unlimited practice sessions",
+        "Video + voice analysis with timestamps",
+        "Priority support responses",
+        "Resume and cover letter rewrites",
+      ],
+      cta: "Sign Up Now",
       highlighted: true,
+    },
+    {
+      id: "starter_yearly",
+      name: "Starter Yearly",
+      price: "EGP 1,999",
+      period: "year",
+      description: "Starter features billed yearly with 40% savings.",
+      features: [
+        "Everything in Starter Monthly",
+        "40% savings with annual billing",
+        "20 sessions every month",
+        "Unlimited resume keyword checks",
+      ],
+      cta: "Sign Up Now",
+      highlighted: false,
+    },
+    {
+      id: "pro_yearly",
+      name: "Pro Yearly",
+      price: "EGP 3,999",
+      period: "year",
+      description: "Pro features billed yearly with 44% savings.",
+      features: [
+        "Everything in Pro Monthly",
+        "44% savings with annual billing",
+        "Unlimited sessions and reports",
+        "Priority support and CV rewrites",
+      ],
+      cta: "Sign Up Now",
+      highlighted: false,
     },
   ],
   faqs: [
@@ -361,9 +403,9 @@ const siteContentEn: SiteContent = {
       },
       howItWorks: {
         eyebrow: "How it works",
-        title: "Practice in a structured, guided flow",
+        title: "Five clear steps from role to score",
         subtitle:
-          "Set a goal, record answers, and get actionable insights after every session.",
+          "Choose your role, practice with AI, and see exactly how to improve.",
       },
       testimonials: {
         eyebrow: "Testimonials",
@@ -373,9 +415,8 @@ const siteContentEn: SiteContent = {
       pricing: {
         eyebrow: "Pricing",
         title: "Simple, transparent pricing",
-        subtitle: "Clear monthly and yearly pricing in USD.",
-        promotion:
-          "One-month discount: Save 20% on your first month for both Free and Paid plans.",
+        subtitle: "Transparent monthly and yearly pricing in EGP for Starter and Pro.",
+        promotion: "Annual plans: save up to 44% on Starter and Pro.",
       },
       faq: {
         eyebrow: "FAQ",
@@ -486,27 +527,33 @@ const siteContentAr: SiteContent = {
   howItWorks: [
     {
       step: 1,
-      title: "حدد هدفك",
+      title: "1️⃣ اختر الوظيفة المستهدفة",
       description:
-        "اختر الدور ومستوى الخبرة ونوع المقابلة للحصول على خطة مخصصة.",
+        "حدد الوظيفة والمستوى الذي تستهدفه لنضبط الأسئلة والتقييمات.",
     },
     {
       step: 2,
-      title: "سجّل الإجابات مباشرة",
+      title: "2️⃣ ابدأ مقابلة الذكاء الاصطناعي",
       description:
-        "اختر الأسئلة وأجب أمام الكاميرا كما في مقابلة حقيقية.",
+        "يطرح عليك المساعد أسئلة واقعية بناءً على الدور الذي اخترته.",
     },
     {
       step: 3,
-      title: "احصل على ملاحظات الذكاء الاصطناعي",
+      title: "3️⃣ أجب بطبيعتك",
       description:
-        "تقرير مفصّل عن الوضوح والبنية والنبرة ولغة الجسد.",
+        "أجب كما لو كنت في مقابلة حقيقية—خذ وقتك واشرح طريقة تفكيرك.",
     },
     {
       step: 4,
-      title: "طوّر الأداء وتابع التقدم",
+      title: "4️⃣ يحلل الذكاء الاصطناعي إجاباتك",
       description:
-        "اتبع خطة التدريب، وكرر الممارسة، وشاهد درجاتك تتحسن.",
+        "تُقيَّم إجاباتك للوضوح والبنية والملاءمة والمهارات الأساسية.",
+    },
+    {
+      step: 5,
+      title: "5️⃣ احصل على ملاحظات فورية ودرجة",
+      description:
+        "تتلقى درجتك ونقاط القوة ونصائح التحسين وإرشادات للجلسة التالية.",
     },
   ],
   testimonials: [
@@ -563,42 +610,77 @@ const siteContentAr: SiteContent = {
     {
       id: "free",
       name: "مجاني",
-      price: "$0",
+      price: "EGP 0",
       period: "شهر",
-      description: "للتجربة الخفيفة ومعاينة سريعة لـ wzzfny.",
+      description: "أفضل للبدايات: 3 جلسات قصيرة كل شهر مع نصائح تمهيدية.",
       features: [
-        "لوحة بيانات أساسية (عدد المقابلات)",
-        "مقابلة سلوكية واحدة شهريًا (بدون فيديو)",
-        "تحميل سيرة ذاتية مرة واحدة (ملاحظات أساسية)",
-        "أسئلة تدريب محدودة",
-        "حفظ آخر تقرير فقط",
+        "3 جلسات قصيرة كل شهر",
+        "فحص أساسي للسيرة الذاتية للتنسيق والكلمات المفتاحية",
+        "إجابات نصية أو صوتية",
+        "احتفظ بأحدث تقرير فقط",
       ],
       cta: "ابدأ مجانًا",
       highlighted: false,
     },
     {
-      id: "paid",
-      name: "مدفوع",
-      price: "$10",
+      id: "starter_monthly",
+      name: "ستارتر شهري",
+      price: "EGP 299",
       period: "شهر",
-      secondaryPrice: "$80",
-      secondaryPeriod: "سنة",
-      description: "وصول كامل للباحثين عن عمل بجدية.",
+      description: "أفضل للمبتدئين الذين يريدون ملاحظات فيديو.",
       features: [
-        "لوحة بيانات كاملة + تتبع التقدم",
-        "مقابلات غير محدودة (سلوكية/تقنية/مختلطة)",
-        "تسجيل مقابلات فيديو",
-        "تحليل بالذكاء الاصطناعي (إجابات وصوت ولغة جسد)",
-        "تقارير مفصلة ورسوم بيانية",
-        "تحسينات غير محدودة للسيرة الذاتية",
-        "مكتبة أسئلة كاملة",
-        "حفظ كل المقابلات والتقارير",
-        "تعليقات فيديو متقدمة (محددة بالتوقيت)",
-        "تدريب مخصص وتمارين يومية",
-        "أولوية في الوصول والدعم",
+        "20 جلسة تدريب كل شهر",
+        "فيديو أو صوت مع نصائح ذكاء اصطناعي",
+        "بطاقة درجات بسيطة مع 3 تحسينات",
+        "اقتراحات كلمات مفتاحية للسيرة الذاتية",
       ],
-      cta: "ابدأ الخطة المدفوعة",
+      cta: "اشترك الآن",
+      highlighted: false,
+    },
+    {
+      id: "pro_monthly",
+      name: "برو شهري",
+      price: "EGP 599",
+      period: "شهر",
+      description: "تدريب غير محدود مع تحليل أعمق وردود أولوية.",
+      features: [
+        "جلسات تدريب غير محدودة",
+        "تحليل فيديو وصوت مع طوابع زمنية",
+        "دعم أولوية في الردود",
+        "إعادة كتابة للسيرة الذاتية وخطاب التغطية",
+      ],
+      cta: "اشترك الآن",
       highlighted: true,
+    },
+    {
+      id: "starter_yearly",
+      name: "ستارتر سنوي",
+      price: "EGP 1,999",
+      period: "سنة",
+      description: "مزايا ستارتر مع دفع سنوي وتوفير 40٪.",
+      features: [
+        "كل ما في ستارتر شهري",
+        "توفير 40٪ مع الفوترة السنوية",
+        "20 جلسة كل شهر",
+        "فحوص كلمات مفتاحية غير محدودة للسيرة الذاتية",
+      ],
+      cta: "اشترك الآن",
+      highlighted: false,
+    },
+    {
+      id: "pro_yearly",
+      name: "برو سنوي",
+      price: "EGP 3,999",
+      period: "سنة",
+      description: "مزايا برو مع دفع سنوي وتوفير 44٪.",
+      features: [
+        "كل ما في برو شهري",
+        "توفير 44٪ مع الفوترة السنوية",
+        "جلسات وتقارير غير محدودة",
+        "دعم أولوية وإعادة كتابة للسيرة الذاتية",
+      ],
+      cta: "اشترك الآن",
+      highlighted: false,
     },
   ],
   faqs: [
@@ -691,9 +773,9 @@ const siteContentAr: SiteContent = {
       },
       howItWorks: {
         eyebrow: "كيف يعمل",
-        title: "تدرّب ضمن مسار منظم وموجّه",
+        title: "خمس خطوات واضحة من الدور إلى الدرجة",
         subtitle:
-          "حدّد هدفك، سجّل إجاباتك، واحصل على رؤى قابلة للتنفيذ بعد كل جلسة.",
+          "اختر الدور، تدرّب مع الذكاء الاصطناعي، واعرف بالضبط كيف تتحسن.",
       },
       testimonials: {
         eyebrow: "آراء المستخدمين",
@@ -703,9 +785,8 @@ const siteContentAr: SiteContent = {
       pricing: {
         eyebrow: "الأسعار",
         title: "أسعار واضحة وبسيطة",
-        subtitle: "أسعار شهرية وسنوية واضحة بالدولار الأمريكي.",
-        promotion:
-          "خصم لمدة شهر واحد: وفّر 20٪ على أول شهر في الخطتين المجانية والمدفوعة.",
+        subtitle: "أسعار شهرية وسنوية واضحة بالجنيه المصري لخطط ستارتر وبرو.",
+        promotion: "وفر حتى 44٪ مع الخطط السنوية لستارتر وبرو.",
       },
       faq: {
         eyebrow: "الأسئلة الشائعة",

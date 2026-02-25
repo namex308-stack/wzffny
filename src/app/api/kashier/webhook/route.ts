@@ -128,7 +128,8 @@ export async function POST(request: Request) {
   }
 
   const planId = subscription.plan as PlanId;
-  const expectedAmount = PLAN_DEFINITIONS[planId]?.amount ?? 0;
+  const planDefinition = PLAN_DEFINITIONS[planId];
+  const expectedAmount = planDefinition?.amount ?? 0;
   const receivedAmount = payload.amount ? Number(payload.amount) : null;
   const receivedCurrency = (payload.currency ?? BILLING_CURRENCY).toUpperCase();
 
@@ -180,7 +181,8 @@ export async function POST(request: Request) {
     .eq("status", "active");
 
   const now = new Date();
-  const periodEnd = addMonths(now, 1);
+  const billingIntervalMonths = planDefinition?.intervalMonths ?? 1;
+  const periodEnd = addMonths(now, billingIntervalMonths);
   const usagePeriodStart = now.toISOString().slice(0, 10);
   const usagePeriodEnd = periodEnd.toISOString().slice(0, 10);
 
